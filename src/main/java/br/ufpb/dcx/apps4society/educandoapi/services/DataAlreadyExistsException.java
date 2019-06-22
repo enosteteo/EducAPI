@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+package br.ufpb.dcx.apps4society.educandoapi.services;
 
 /**
  * Exception thrown when trying to insert into the system database some data that already exists.

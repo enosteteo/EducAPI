@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+package br.ufpb.dcx.apps4society.educandoapi.domain;
 
 /**
  * Represents a User that created a Challenge or Context.

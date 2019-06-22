@@ -1,7 +1,11 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+package br.ufpb.dcx.apps4society.educandoapi.services;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
+import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
+import br.ufpb.dcx.apps4society.educandoapi.domain.User;
 
 /**
  * A mock implementation of the SisalfaService interface, which only uses 

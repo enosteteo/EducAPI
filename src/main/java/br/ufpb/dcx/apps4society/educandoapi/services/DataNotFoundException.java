@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+package br.ufpb.dcx.apps4society.educandoapi.services;
 
 /**
  * Exception that represents the problem of do not finding

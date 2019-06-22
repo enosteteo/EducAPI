@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+package br.ufpb.dcx.apps4society.educandoapi.domain;
 
 /**
  * This class represents a set of related challenges.
