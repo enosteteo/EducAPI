@@ -1,4 +1,4 @@
-package br.ufpb.dcx.sisalfa;
+package br.ufpb.dcx.apps4society.educandoapi;
 
 /**
  * Represents a User that created a Challenge or Context.

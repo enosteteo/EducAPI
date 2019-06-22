@@ -1,17 +1,17 @@
-package br.ufpb.dcx.sisalfa;
+package br.ufpb.dcx.apps4society.educandoapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import org.junit.Before;
+import org.aspectj.lang.annotation.Before;
 import org.junit.Test;
 
 public class SisalfaMockServiceTest {
 	
 	private SisalfaMockService mockService;
 	
-	@Before
+	@Before(value = "")
 	public void beforeTests() {
 		mockService = new SisalfaMockService();
 	}

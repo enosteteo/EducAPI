@@ -1,4 +1,4 @@
-package br.ufpb.dcx.sisalfa;
+package br.ufpb.dcx.apps4society.educandoapi;
 
 import java.util.ArrayList;
 import java.util.List;

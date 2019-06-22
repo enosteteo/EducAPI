@@ -1,4 +1,4 @@
-package br.ufpb.dcx.sisalfa;
+package br.ufpb.dcx.apps4society.educandoapi;
 
 import java.rmi.RemoteException;
 import java.util.List;
