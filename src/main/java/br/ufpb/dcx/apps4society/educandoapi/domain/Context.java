@@ -1,40 +1,43 @@
 package br.ufpb.dcx.apps4society.educandoapi.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * This class represents a set of related challenges.
  * 
  * @author Ayla Dantas
+ * @author Emerson Dantas
  *
  */
 public class Context {
 
+	private Integer id;
 	private String name;
-	private String contextId;
-	private String userId;
+	private User creator;
 	private String imageUrl;
 	private String soundUrl;
 	private String videoUrl;
+	private Set<Challenge> challenges = new HashSet<Challenge>();
 	
-	public static final String DEFAULT_CONTEXT_NAME = "Empty Challenge";
-	public static final String DEFAULT_CONTEXT_ID = "-1";
-
+	/**
+	 * Empty Constructor.
+	 */
+	public Context() {}
 	
-	public Context() {
-		this(DEFAULT_CONTEXT_NAME, DEFAULT_CONTEXT_ID, User.DEFAULT_USER_ID, null,null,null);
-	}
 	/**
 	 * Constructor
+	 * @param id The id of this Context.
 	 * @param name The Context name.
-	 * @param contextId The id of the Context.
-	 * @param userId The id of the User.
+	 * @param creator The creator of this Context.
 	 * @param image The image for this Context.
 	 * @param sound The sound for this Context.
 	 * @param videoUrl The URL of a video for this Context.
 	 */
-	public Context(String name, String contextId, String userId, String imageUrl, String soundUrl, String videoUrl) {
+	public Context(Integer id, String name,  User creator, String imageUrl, String soundUrl, String videoUrl) {
+		this.id = id;
 		this.name = name;
-		this.contextId = contextId;
-		this.userId = userId;
+		this.creator = creator;
 		this.imageUrl = imageUrl;
 		this.soundUrl = soundUrl;
 		this.videoUrl = videoUrl;
@@ -64,37 +67,37 @@ public class Context {
 	 * 
 	 * @return the if of this Context.
 	 */
-	public String getContextId() {
-		return contextId;
+	public Integer getId() {
+		return this.id;
 	}
 
 	/**
 	 * Changes the if of this Context.
 	 * 
-	 * @param contextId
+	 * @param id
 	 *            The new value of the id for this Context.
 	 */
-	public void setContextId(String contextId) {
-		this.contextId = contextId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	/**
-	 * Gets the id of the user that created this Context.
+	 * Gets the user that created this Context.
 	 * 
-	 * @return The id of the user that created this Context.
+	 * @return The user that created this Context.
 	 */
-	public String getUserId() {
-		return userId;
+	public User getCreator() {
+		return this.creator;
 	}
 
 	/**
-	 * Changes the id of the user that owns this Context.
+	 * Changes user that owns this Context.
 	 * 
-	 * @param userId
-	 *            The user id.
+	 * @param creator
+	 *            The user creator.
 	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 
 	/**
@@ -148,21 +151,40 @@ public class Context {
 	/**
 	 * Sets the String representing the byte[] of an image for this Context.
 	 * 
-	 * @param a
+	 * @param imageUrl
 	 *            String representing the byte[] of an image for this Context.
 	 */
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
 	
+	/**
+	 * Gets the HashSet that contains the challenges from this Context.
+	 * 
+	 * @return a HashSet that contains the challenges from this Context.
+	 */
+	public Set<Challenge> getChallenges() {
+		return challenges;
+	}
+	
+	/**
+	 * Sets the HashSet that contains the challenges from this Context.
+	 * 
+	 * @param challenges
+	 *            HashSet that contains the challenges from this Context.
+	 */
+	public void setChallenges(Set<Challenge> challenges) {
+		this.challenges = challenges;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((contextId == null) ? 0 : contextId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -172,17 +194,18 @@ public class Context {
 		if (getClass() != obj.getClass())
 			return false;
 		Context other = (Context) obj;
-		if (contextId == null) {
-			if (other.contextId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!contextId.equals(other.contextId))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Context [name=" + name + ", contextId=" + contextId + ", userId=" + userId + ", imageUrl=" + imageUrl
-				+ ", soundUrl=" + soundUrl + ", videoUrl=" + videoUrl + "]";
+		return "Context [id=" + id + ", name=" + name + ", creator=" + creator + ", imageUrl=" + imageUrl
+				+ ", soundUrl=" + soundUrl + ", videoUrl=" + videoUrl + ", challenges=" + challenges + "]";
 	}
+	
 }

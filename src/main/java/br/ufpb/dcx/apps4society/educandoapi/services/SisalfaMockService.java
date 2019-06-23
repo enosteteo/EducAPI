@@ -6,6 +6,8 @@ import java.util.List;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
 import br.ufpb.dcx.apps4society.educandoapi.domain.User;
+import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataAlreadyExistsException;
+import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataNotFoundException;
 
 /**
  * A mock implementation of the SisalfaService interface, which only uses 

@@ -10,9 +10,9 @@ import org.junit.Test;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
 import br.ufpb.dcx.apps4society.educandoapi.domain.User;
-import br.ufpb.dcx.apps4society.educandoapi.services.DataAlreadyExistsException;
-import br.ufpb.dcx.apps4society.educandoapi.services.DataNotFoundException;
 import br.ufpb.dcx.apps4society.educandoapi.services.SisalfaMockService;
+import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataAlreadyExistsException;
+import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataNotFoundException;
 
 public class SisalfaMockServiceTest {
 	

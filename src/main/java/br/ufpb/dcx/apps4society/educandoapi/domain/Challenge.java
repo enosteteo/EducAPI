@@ -1,44 +1,42 @@
 package br.ufpb.dcx.apps4society.educandoapi.domain;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Represents a Challenge for exercises or games based on words.
  * 
  * @author Ayla Dantas
+ * @author Emerson Dantas
  *
  */
 public class Challenge {
+	
+	private Integer id;
 	private String word;
-	private String challengeId;
-	private String userId;
-	private String contextId;
+	private User creator;
 	private String soundUrl;
 	private String videoUrl;
 	private String imageUrl;
-	public static final String DEFAULT_CHALLENGE_WORD = "Empty Challenge";
-	public static final String DEFAULT_CHALLENGE_ID = "-1";
+	private Set<Context> contexts = new HashSet<Context>();
 	
 	/**
-	 * Default Constructor.
+	 * Empty Constructor.
 	 */
-	public Challenge() {
-		this(DEFAULT_CHALLENGE_WORD, DEFAULT_CHALLENGE_ID, User.DEFAULT_USER_ID, Context.DEFAULT_CONTEXT_ID, null,null,null);
-	}
+	public Challenge() { }
 	/**
 	 * Constructor
+	 * @param id The id of this Challenge.
 	 * @param word The word.
-	 * @param challengeId The id of this Challenge.
-	 * @param userId The id of the User that created this Challenge.
-	 * @param contextId The id of the Context related with this Challenge.
+	 * @param creator The creator of this Challenge.
 	 * @param soundUrl The soundUrl representing this Challenge.
 	 * @param videoUrl The URL of a video representing this Challenge.
 	 * @param imageUrl The imageUrl representing this Challenge.
 	 */
-	public Challenge(String word, String challengeId, String userId, String contextId, String imageUrl, String soundUrl, String videoUrl) {
-		super();
+	public Challenge(Integer id, String word, User creator, String imageUrl, String soundUrl, String videoUrl) {
+		this.id = id;
 		this.word = word;
-		this.challengeId = challengeId;
-		this.userId = userId;
-		this.contextId = contextId;
+		this.creator = creator;
 		this.soundUrl = soundUrl;
 		this.videoUrl = videoUrl;
 		this.imageUrl = imageUrl;
@@ -68,56 +66,56 @@ public class Challenge {
 	 * 
 	 * @return the id of this Challenge.
 	 */
-	public String getChallengeId() {
-		return challengeId;
+	public Integer getId() {
+		return this.id;
 	}
 
 	/**
 	 * Changes the id of this Challenge.
 	 * 
-	 * @param challengeId
+	 * @param id
 	 *            The new id for this Challenge.
 	 */
-	public void setChallengeId(String challengeId) {
-		this.challengeId = challengeId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	/**
-	 * The id of the User that owns this Challenge.
+	 * The creator that owns this Challenge.
 	 * 
-	 * @return the id of the User that owns this Challenge.
+	 * @return the creator that owns this Challenge.
 	 */
-	public String getUserId() {
-		return userId;
+	public User getCreator() {
+		return this.creator;
 	}
 
 	/**
-	 * Changes the id of the user that owns this Challenge.
+	 * Changes creator that owns this Challenge.
 	 * 
-	 * @param userId
-	 *            the new id of the user that owns this Challenge.
+	 * @param creator
+	 *            the new creator that owns this Challenge.
 	 */
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setCreator(User creator) {
+		this.creator = creator;
 	}
 
 	/**
-	 * Returns the id of the Context related to this Challenge.
+	 * Returns the Contexts related to this Challenge.
 	 * 
-	 * @return the id of the Context related to this Challenge.
+	 * @return the Contexts related to this Challenge.
 	 */
-	public String getContextId() {
-		return contextId;
+	public Set<Context> getContexts() {
+		return this.contexts;
 	}
 
 	/**
-	 * Changes the id of this Challenge.
+	 * Changes the Contexts related to this Challenge.
 	 * 
-	 * @param contextId
-	 *            the new if of this Challenge.
+	 * @param contexts
+	 *            the Contexts related to this Challenge.
 	 */
-	public void setContextId(String contextId) {
-		this.contextId = contextId;
+	public void setContextId(Set<Context> contexts) {
+		this.contexts = contexts;
 	}
 
 	/**
@@ -176,23 +174,15 @@ public class Challenge {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
-
-
-
-	@Override
-	public String toString() {
-		return "Challenge [word=" + word + ", challengeId=" + challengeId + ", userId=" + userId + ", contextId="
-				+ contextId + ", soundUrl=" + soundUrl + ", videoUrl=" + videoUrl + ", imageUrl=" + imageUrl + "]";
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((challengeId == null) ? 0 : challengeId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
-
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -202,12 +192,19 @@ public class Challenge {
 		if (getClass() != obj.getClass())
 			return false;
 		Challenge other = (Challenge) obj;
-		if (challengeId == null) {
-			if (other.challengeId != null)
+		if (id == null) {
+			if (other.id != null)
 				return false;
-		} else if (!challengeId.equals(other.challengeId))
+		} else if (!id.equals(other.id))
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		return "Challenge [id=" + id + ", word=" + word + ", creator=" + creator + ", soundUrl=" + soundUrl
+				+ ", videoUrl=" + videoUrl + ", imageUrl=" + imageUrl + ", contexts=" + contexts + "]";
+	}
+
 
 }
