@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi.services;
+/***package br.ufpb.dcx.apps4society.educandoapi.services.mock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
 import br.ufpb.dcx.apps4society.educandoapi.domain.User;
+import br.ufpb.dcx.apps4society.educandoapi.services.SisalfaService;
 import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataAlreadyExistsException;
 import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataNotFoundException;
 
@@ -15,7 +16,8 @@ import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataNotFoundExce
  * 
  * @author Ayla Dantas 
  *
- */
+ 
+
 public class SisalfaMockService implements SisalfaService{
 	
 	private List<User> users;
@@ -43,7 +45,7 @@ public class SisalfaMockService implements SisalfaService{
 	
 	/**
 	 * Default constructor.
-	 */
+	 
 	public SisalfaMockService() {
 		this.users = new ArrayList<User>();
 		this.challenges = new ArrayList<Challenge>();
@@ -224,4 +226,4 @@ public class SisalfaMockService implements SisalfaService{
 	
 
 
-}
+}*/

@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+/*package br.ufpb.dcx.apps4society.educandoapi;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -10,9 +10,9 @@ import org.junit.Test;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
 import br.ufpb.dcx.apps4society.educandoapi.domain.User;
-import br.ufpb.dcx.apps4society.educandoapi.services.SisalfaMockService;
 import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataAlreadyExistsException;
 import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataNotFoundException;
+import br.ufpb.dcx.apps4society.educandoapi.services.mock.SisalfaMockService;
 
 public class SisalfaMockServiceTest {
 	
@@ -102,4 +102,4 @@ public class SisalfaMockServiceTest {
 	}
 	
 
-}
+}*/
