@@ -41,7 +41,6 @@ public class SisalfaMockService implements SisalfaService{
 		return id;
 	}
 	
-	
 	/**
 	 * Default constructor.
 	 */

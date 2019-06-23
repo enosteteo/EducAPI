@@ -1,7 +1,14 @@
 package br.ufpb.dcx.apps4society.educandoapi.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 /**
  * Represents a User that created a Challenge or Context.
@@ -9,13 +16,18 @@ import java.util.Set;
  * @author Ayla Dantas
  * @author Emerson Dantas
  */
-public class User {
-	
+@Entity
+public class User implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
 	private String email;
 	private String pass;
+	@OneToMany(mappedBy = "creator")
 	private Set<Challenge> challenges = new HashSet<>();
+	@OneToMany(mappedBy = "creator")
 	private Set<Context> contexts = new HashSet<>();
 	
 	/**

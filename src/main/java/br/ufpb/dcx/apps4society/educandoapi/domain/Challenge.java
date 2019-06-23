@@ -1,7 +1,18 @@
 package br.ufpb.dcx.apps4society.educandoapi.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * Represents a Challenge for exercises or games based on words.
@@ -10,14 +21,22 @@ import java.util.Set;
  * @author Emerson Dantas
  *
  */
-public class Challenge {
-	
+@Entity
+public class Challenge implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String word;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="challenge_creator")
 	private User creator;
 	private String soundUrl;
 	private String videoUrl;
 	private String imageUrl;
+	@JsonIgnore
+	@ManyToMany(mappedBy = "challenges")
 	private Set<Context> contexts = new HashSet<Context>();
 	
 	/**
@@ -85,6 +104,7 @@ public class Challenge {
 	 * 
 	 * @return the creator that owns this Challenge.
 	 */
+	@JsonIgnore
 	public User getCreator() {
 		return this.creator;
 	}
@@ -104,6 +124,7 @@ public class Challenge {
 	 * 
 	 * @return the Contexts related to this Challenge.
 	 */
+	@JsonIgnore
 	public Set<Context> getContexts() {
 		return this.contexts;
 	}

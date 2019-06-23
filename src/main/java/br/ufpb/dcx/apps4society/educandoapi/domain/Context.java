@@ -1,7 +1,19 @@
 package br.ufpb.dcx.apps4society.educandoapi.domain;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  * This class represents a set of related challenges.
@@ -10,14 +22,26 @@ import java.util.Set;
  * @author Emerson Dantas
  *
  */
-public class Context {
-
+@Entity
+public class Context implements Serializable {
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String name;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="context_creator")
 	private User creator;
 	private String imageUrl;
 	private String soundUrl;
 	private String videoUrl;
+	@ManyToMany
+	@JoinTable(
+			name = "CONTEXT_CHALLEGE",
+			joinColumns = @JoinColumn(name="context_id"),
+			inverseJoinColumns = @JoinColumn(name="challenge_id")
+			)
 	private Set<Challenge> challenges = new HashSet<Challenge>();
 	
 	/**
@@ -86,6 +110,7 @@ public class Context {
 	 * 
 	 * @return The user that created this Context.
 	 */
+	@JsonIgnore
 	public User getCreator() {
 		return this.creator;
 	}
