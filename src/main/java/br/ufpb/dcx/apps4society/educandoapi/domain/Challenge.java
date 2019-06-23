@@ -124,7 +124,7 @@ public class Challenge implements Serializable {
 	 * 
 	 * @return the Contexts related to this Challenge.
 	 */
-
+	@JsonIgnore
 	public Set<Context> getContexts() {
 		return this.contexts;
 	}
