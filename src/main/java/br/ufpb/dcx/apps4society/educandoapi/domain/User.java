@@ -24,7 +24,7 @@ public class User implements Serializable {
 	private Long id;
 	private String name;
 	private String email;
-	private String pass;
+	private String password;
 	@OneToMany(mappedBy = "creator")
 	private Set<Challenge> challenges = new HashSet<>();
 	@OneToMany(mappedBy = "creator")
@@ -47,14 +47,14 @@ public class User implements Serializable {
 	 * @param email
 	 *            The user email.
 	 *            
-	 * @param pass
-	 *            The user pass.
+	 * @param password
+	 *            The user password.
 	 */
-	public User(Long id, String name, String email, String pass) {
+	public User(Long id, String name, String email, String password) {
 		this.id = id;
 		this.name = name;
 		this.setEmail(email);
-		this.setPass(pass);
+		this.setPass(password);
 	}
 
 	/**
@@ -116,23 +116,23 @@ public class User implements Serializable {
 	}
 	
 	/**
-	 * Gets the user pass.
+	 * Gets the user password.
 	 * 
-	 * @return the user pass.
+	 * @return the user password.
 	 */
-	public String getPass() {
-		return pass;
+	public String getPassword() {
+		return this.password;
 	}
 	
 	/**
-	 * Changes the user pass.
+	 * Changes the user password.
 	 * 
-	 * @param pass
-	 *            The new pass value.
+	 * @param password
+	 *            The new password value.
 	 * 
 	 */
-	public void setPass(String pass) {
-		this.pass = pass;
+	public void setPass(String password) {
+		this.password = password;
 	}
 	
 	/**
@@ -177,7 +177,7 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", name=" + name + ", email=" + email + ", pass=" + pass + "]";
+		return "User [id=" + id + ", name=" + name + ", email=" + email + "]";
 	}
 
 	@Override
