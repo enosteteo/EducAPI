@@ -7,6 +7,6 @@ import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;;
 
 
 @Repository
-public interface ChallengeRepository extends JpaRepository<Challenge, Integer> {
+public interface ChallengeRepository extends JpaRepository<Challenge, Long> {
 	
 }

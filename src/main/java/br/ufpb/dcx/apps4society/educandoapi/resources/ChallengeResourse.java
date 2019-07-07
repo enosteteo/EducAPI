@@ -18,7 +18,7 @@ public class ChallengeResourse {
 	private ChallengeService challengeService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
 		Challenge obj = challengeService.search(id);
 		return ResponseEntity.ok().body(obj);
 	}

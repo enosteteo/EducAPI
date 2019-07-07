@@ -18,7 +18,7 @@ public class UserResourse {
 	private UserService userService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
 		User obj = userService.search(id);
 		return ResponseEntity.ok().body(obj);
 	}

@@ -14,7 +14,7 @@ public class ContextService {
 	@Autowired
 	private ContextRepository contextRepository;
 	
-	public Context search(Integer id) throws ObjectNotFoundException {
+	public Context search(Long id) throws ObjectNotFoundException {
 		Optional<Context> obgOptional = contextRepository.findById(id);
 		return obgOptional.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Context.class.getName()));
 	}

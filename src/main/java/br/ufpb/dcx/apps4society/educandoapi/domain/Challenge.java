@@ -26,7 +26,7 @@ public class Challenge implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private String word;
 	@JsonIgnore
 	@ManyToOne
@@ -52,7 +52,7 @@ public class Challenge implements Serializable {
 	 * @param videoUrl The URL of a video representing this Challenge.
 	 * @param imageUrl The imageUrl representing this Challenge.
 	 */
-	public Challenge(Integer id, String word, User creator, String imageUrl, String soundUrl, String videoUrl) {
+	public Challenge(Long id, String word, User creator, String imageUrl, String soundUrl, String videoUrl) {
 		this.id = id;
 		this.word = word;
 		this.creator = creator;
@@ -85,7 +85,7 @@ public class Challenge implements Serializable {
 	 * 
 	 * @return the id of this Challenge.
 	 */
-	public Integer getId() {
+	public Long getId() {
 		return this.id;
 	}
 
@@ -95,7 +95,7 @@ public class Challenge implements Serializable {
 	 * @param id
 	 *            The new id for this Challenge.
 	 */
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 

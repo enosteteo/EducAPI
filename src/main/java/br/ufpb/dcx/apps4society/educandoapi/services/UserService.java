@@ -14,7 +14,7 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
-	public User search(Integer id) throws ObjectNotFoundException {
+	public User search(Long id) throws ObjectNotFoundException {
 		Optional<User> obgOptional = userRepository.findById(id);
 		return obgOptional.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + User.class.getName()));
 	}

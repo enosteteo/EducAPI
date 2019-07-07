@@ -14,7 +14,7 @@ public class ChallengeService {
 	@Autowired
 	private ChallengeRepository challengeRepository;
 	
-	public Challenge search(Integer id) throws ObjectNotFoundException {
+	public Challenge search(Long id) throws ObjectNotFoundException {
 		Optional<Challenge> obgOptional = challengeRepository.findById(id);
 		return obgOptional.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Challenge.class.getName()));
 	}

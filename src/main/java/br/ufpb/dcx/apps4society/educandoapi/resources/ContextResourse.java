@@ -18,7 +18,7 @@ public class ContextResourse {
 	private ContextService contextService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Integer id) throws ObjectNotFoundException {
+	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
 		Context obj = contextService.search(id);
 		return ResponseEntity.ok().body(obj);
 	}
