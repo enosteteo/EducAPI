@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi.domain;
+package br.ufpb.dcx.apps4society.educapi.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;

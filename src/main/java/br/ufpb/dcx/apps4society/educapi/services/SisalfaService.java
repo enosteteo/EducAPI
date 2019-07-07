@@ -1,13 +1,13 @@
-package br.ufpb.dcx.apps4society.educandoapi.services;
+package br.ufpb.dcx.apps4society.educapi.services;
 
 import java.rmi.RemoteException;
 import java.util.List;
 
-import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
-import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
-import br.ufpb.dcx.apps4society.educandoapi.domain.User;
-import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataAlreadyExistsException;
-import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.DataNotFoundException;
+import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
+import br.ufpb.dcx.apps4society.educapi.domain.Context;
+import br.ufpb.dcx.apps4society.educapi.domain.User;
+import br.ufpb.dcx.apps4society.educapi.services.exceptions.DataAlreadyExistsException;
+import br.ufpb.dcx.apps4society.educapi.services.exceptions.DataNotFoundException;
 
 /**
  * API for a service that provides a multimedia database to support the

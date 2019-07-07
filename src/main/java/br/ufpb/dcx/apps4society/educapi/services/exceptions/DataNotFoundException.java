@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi.services.exceptions;
+package br.ufpb.dcx.apps4society.educapi.services.exceptions;
 
 /**
  * Exception that represents the problem of do not finding

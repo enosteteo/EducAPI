@@ -1,13 +1,13 @@
-package br.ufpb.dcx.apps4society.educandoapi.services;
+package br.ufpb.dcx.apps4society.educapi.services;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
-import br.ufpb.dcx.apps4society.educandoapi.repositories.ContextRepository;
-import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.ObjectNotFoundException;
+import br.ufpb.dcx.apps4society.educapi.domain.Context;
+import br.ufpb.dcx.apps4society.educapi.repositories.ContextRepository;
+import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class ContextService {

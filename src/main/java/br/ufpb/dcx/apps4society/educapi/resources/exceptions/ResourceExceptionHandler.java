@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi.resources.exceptions;
+package br.ufpb.dcx.apps4society.educapi.resources.exceptions;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import br.ufpb.dcx.apps4society.educandoapi.services.exceptions.ObjectNotFoundException;
+import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {

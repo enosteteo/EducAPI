@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi.services.exceptions;
+package br.ufpb.dcx.apps4society.educapi.services.exceptions;
 
 public class ObjectNotFoundException extends Exception{
 	private static final long serialVersionUID = 1L;

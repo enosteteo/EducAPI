@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi;
+package br.ufpb.dcx.apps4society.educapi;
 
 import java.util.Arrays;
 
@@ -7,15 +7,15 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import br.ufpb.dcx.apps4society.educandoapi.domain.Challenge;
-import br.ufpb.dcx.apps4society.educandoapi.domain.Context;
-import br.ufpb.dcx.apps4society.educandoapi.domain.User;
-import br.ufpb.dcx.apps4society.educandoapi.repositories.ChallengeRepository;
-import br.ufpb.dcx.apps4society.educandoapi.repositories.ContextRepository;
-import br.ufpb.dcx.apps4society.educandoapi.repositories.UserRepository;
+import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
+import br.ufpb.dcx.apps4society.educapi.domain.Context;
+import br.ufpb.dcx.apps4society.educapi.domain.User;
+import br.ufpb.dcx.apps4society.educapi.repositories.ChallengeRepository;
+import br.ufpb.dcx.apps4society.educapi.repositories.ContextRepository;
+import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
 
 @SpringBootApplication
-public class EducandoApiApplication implements CommandLineRunner {
+public class EducAPIApplication implements CommandLineRunner {
 	@Autowired
 	private ChallengeRepository challengeRepository;
 	@Autowired 
@@ -24,7 +24,7 @@ public class EducandoApiApplication implements CommandLineRunner {
 	private UserRepository userRepository;
 	
 	public static void main(String[] args) {
-		SpringApplication.run(EducandoApiApplication.class, args);	
+		SpringApplication.run(EducAPIApplication.class, args);	
 	}
 	
 	@Override

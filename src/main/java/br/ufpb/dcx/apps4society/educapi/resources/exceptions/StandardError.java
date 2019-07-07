@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educandoapi.resources.exceptions;
+package br.ufpb.dcx.apps4society.educapi.resources.exceptions;
 
 import java.io.Serializable;
 

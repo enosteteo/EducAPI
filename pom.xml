@@ -8,10 +8,10 @@
 		<version>2.2.0.M4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.ufpb.dcx.apps4society.educandoapi</groupId>
-	<artifactId>educando-api</artifactId>
+	<groupId>br.ufpb.dcx.apps4society.educapi</groupId>
+	<artifactId>EducAPI</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>educando-api</name>
+	<name>EducAPI</name>
 	<description>Api that provides themes and challenges for objects of apprenticeship</description>
 
 	<properties>
