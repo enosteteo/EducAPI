@@ -1,2 +1,2 @@
-# educando-api
+# EducAPI
 
