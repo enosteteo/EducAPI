@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
+import br.ufpb.dcx.apps4society.educapi.domain.Context;
 import br.ufpb.dcx.apps4society.educapi.domain.User;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeDTO;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeNewDTO;
 import br.ufpb.dcx.apps4society.educapi.repositories.ChallengeRepository;
+import br.ufpb.dcx.apps4society.educapi.repositories.ContextRepository;
 import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
@@ -24,6 +26,8 @@ public class ChallengeService {
 	private ChallengeRepository repo;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private ContextRepository contextRepository;
 	
 	public Challenge find(Long id) throws ObjectNotFoundException {
 		Optional<Challenge> obgOptional = repo.findById(id);
@@ -44,7 +48,11 @@ public class ChallengeService {
 	}
 	
 	public void delete(Long id) throws ObjectNotFoundException{
-		find(id);
+		Challenge obj = find(id);
+		for(Context x: obj.getContexts()) {
+			x.getChallenges().remove(obj);
+			contextRepository.save(x);
+		}
 		repo.deleteById(id);
 
 	}

@@ -31,7 +31,7 @@ public class Context implements Serializable {
 	private Long id;
 	private String name;
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="context_creator")
 	private User creator;
 	private String imageUrl;

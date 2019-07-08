@@ -30,7 +30,7 @@ public class Challenge implements Serializable {
 	private Long id;
 	private String word;
 	@JsonIgnore
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name="challenge_creator")
 	private User creator;
 	private String soundUrl;
