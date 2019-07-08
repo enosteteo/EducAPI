@@ -21,18 +21,9 @@ public class ContextNewDTO  implements Serializable{
 	private String soundUrl;
 	private String videoUrl;
 	
-	@NotEmpty(message="Required")
 	private Long userId;
 	
 	public ContextNewDTO() {}
-	
-	public ContextNewDTO(Context obj) {
-		this.id = obj.getId();
-		this.name = obj.getName();
-		this.imageUrl = obj.getImageUrl();
-		this.soundUrl = obj.getSoundUrl();
-		this.videoUrl = obj.getVideoUrl();
-	}
 
 	public Long getId() {
 		return id;

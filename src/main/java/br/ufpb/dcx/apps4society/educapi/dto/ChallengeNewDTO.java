@@ -2,7 +2,6 @@ package br.ufpb.dcx.apps4society.educapi.dto;
 
 import java.io.Serializable;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 import org.hibernate.validator.constraints.Length;
@@ -19,7 +18,6 @@ public class ChallengeNewDTO implements Serializable{
 	private String videoUrl;
 	private String imageUrl;
 
-	@NotEmpty(message="Required")
 	private Long userId;
 	
 	public ChallengeNewDTO() {}
