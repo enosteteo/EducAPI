@@ -54,7 +54,7 @@ public class User implements Serializable {
 		this.id = id;
 		this.name = name;
 		this.setEmail(email);
-		this.setPass(password);
+		this.setPassword(password);
 	}
 
 	/**
@@ -131,7 +131,7 @@ public class User implements Serializable {
 	 *            The new password value.
 	 * 
 	 */
-	public void setPass(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 	
