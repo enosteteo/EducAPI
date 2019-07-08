@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class Context implements Serializable {
 	private String imageUrl;
 	private String soundUrl;
 	private String videoUrl;
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(
 			name = "CONTEXT_CHALLEGE",
 			joinColumns = @JoinColumn(name="context_id"),

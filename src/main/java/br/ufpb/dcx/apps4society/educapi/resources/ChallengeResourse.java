@@ -21,7 +21,6 @@ import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeDTO;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeNewDTO;
 import br.ufpb.dcx.apps4society.educapi.services.ChallengeService;
-import br.ufpb.dcx.apps4society.educapi.services.exceptions.DataIntegrityException;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
 @RestController
@@ -53,7 +52,7 @@ public class ChallengeResourse {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException, DataIntegrityException{
+	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException{
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

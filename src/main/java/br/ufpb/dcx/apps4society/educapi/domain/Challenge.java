@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -36,7 +37,7 @@ public class Challenge implements Serializable {
 	private String videoUrl;
 	private String imageUrl;
 	@JsonIgnore
-	@ManyToMany(mappedBy = "challenges")
+	@ManyToMany(mappedBy = "challenges", cascade = CascadeType.MERGE)
 	private Set<Context> contexts = new HashSet<Context>();
 	
 	/**

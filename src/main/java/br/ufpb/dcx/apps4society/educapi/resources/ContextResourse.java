@@ -21,7 +21,6 @@ import br.ufpb.dcx.apps4society.educapi.domain.Context;
 import br.ufpb.dcx.apps4society.educapi.dto.ContextDTO;
 import br.ufpb.dcx.apps4society.educapi.dto.ContextNewDTO;
 import br.ufpb.dcx.apps4society.educapi.services.ContextService;
-import br.ufpb.dcx.apps4society.educapi.services.exceptions.DataIntegrityException;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
 @RestController
@@ -53,7 +52,7 @@ public class ContextResourse {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException, DataIntegrityException{
+	public ResponseEntity<Void> delete(@PathVariable Long id) throws ObjectNotFoundException{
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 	}

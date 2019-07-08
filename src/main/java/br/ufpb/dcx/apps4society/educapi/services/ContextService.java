@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
@@ -17,7 +16,6 @@ import br.ufpb.dcx.apps4society.educapi.dto.ContextDTO;
 import br.ufpb.dcx.apps4society.educapi.dto.ContextNewDTO;
 import br.ufpb.dcx.apps4society.educapi.repositories.ContextRepository;
 import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
-import br.ufpb.dcx.apps4society.educapi.services.exceptions.DataIntegrityException;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
 @Service
@@ -45,13 +43,9 @@ public class ContextService {
 		return repo.save(newObj);
 	}
 	
-	public void delete(Long id) throws ObjectNotFoundException, DataIntegrityException {
+	public void delete(Long id) throws ObjectNotFoundException{
 		find(id);
-		try {
-			repo.deleteById(id);
-		}catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Isn't not possible delete contexts with related challenges");
-		}
+		repo.deleteById(id);
 	}
 	
 	public List<Context> findAll(){
