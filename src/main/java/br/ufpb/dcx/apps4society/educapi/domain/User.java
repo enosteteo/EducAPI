@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
  * @author Ayla Dantas
  * @author Emerson Dantas
  */
-@Entity(name="educapi_user")
+@Entity(name="\"User\"")
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
