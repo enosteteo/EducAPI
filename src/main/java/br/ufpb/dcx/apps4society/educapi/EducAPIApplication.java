@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educapi.domain.Context;
@@ -14,6 +17,7 @@ import br.ufpb.dcx.apps4society.educapi.repositories.ChallengeRepository;
 import br.ufpb.dcx.apps4society.educapi.repositories.ContextRepository;
 import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
 
+@Controller
 @SpringBootApplication
 public class EducAPIApplication implements CommandLineRunner {
 	@Autowired
@@ -26,6 +30,12 @@ public class EducAPIApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(EducAPIApplication.class, args);	
 	}
+	
+	@RequestMapping("/")
+    @ResponseBody
+	String home() {
+      return "Hello World!";
+    }
 	
 	@Override
 	public void run(String... args) throws Exception {
