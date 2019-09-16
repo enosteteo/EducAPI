@@ -39,7 +39,7 @@ public class EducAPIApplication implements CommandLineRunner {
 	
 	@Override
 	public void run(String... args) throws Exception {
-
+		/*
 		User user1 = new User(null, "Emerson", "emerson.ruan@dce.ufpb.br", "12345678");
 		
 		Context c1 = new Context(null, "Natureza", user1, null, null, null);
@@ -60,7 +60,7 @@ public class EducAPIApplication implements CommandLineRunner {
 		
 		userRepository.saveAll(Arrays.asList(user1));
 		challengeRepository.saveAll(Arrays.asList(ch1, ch2, ch3, ch4));
-		contextRepository.saveAll(Arrays.asList(c1, c2));
+		contextRepository.saveAll(Arrays.asList(c1, c2));*/
 	}
 
 }
