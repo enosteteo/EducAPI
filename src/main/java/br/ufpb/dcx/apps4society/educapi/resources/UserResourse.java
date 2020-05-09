@@ -29,13 +29,13 @@ public class UserResourse {
 	@Autowired
 	private UserService service;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
 		User obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Void> insert(@Valid @RequestBody UserDTO objDto){
 		User obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
@@ -43,7 +43,7 @@ public class UserResourse {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes="application/json")
 	public ResponseEntity<Void> update(@Valid @RequestBody UserDTO objDto, @PathVariable Long id) throws ObjectNotFoundException{
 		User obj = service.fromDTO(objDto);
 		obj.setId(id);
@@ -57,14 +57,14 @@ public class UserResourse {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<List<UserDTO>> findAll(){
 		List<User> list = service.findAll();
 		List<UserDTO> listDto = list.stream().map(obj -> new UserDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
+	@RequestMapping(value="/page", method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<Page<UserDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 

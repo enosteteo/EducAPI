@@ -29,13 +29,13 @@ public class ContextResourse {
 	@Autowired
 	private ContextService service;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
 		Context obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Void> insert(@Valid @RequestBody ContextNewDTO objDto){
 		Context obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
@@ -43,7 +43,7 @@ public class ContextResourse {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes="application/json")
 	public ResponseEntity<Void> update(@Valid @RequestBody ContextDTO objDto, @PathVariable Long id) throws ObjectNotFoundException{
 		Context obj = service.fromDTO(objDto);
 		obj.setId(id);
@@ -57,14 +57,14 @@ public class ContextResourse {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<List<ContextDTO>> findAll(){
 		List<Context> list = service.findAll();
 		List<ContextDTO> listDto = list.stream().map(obj -> new ContextDTO(obj)).collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDto);
 	}
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
+	@RequestMapping(value="/page", method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<Page<ContextDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 

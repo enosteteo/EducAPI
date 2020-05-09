@@ -28,13 +28,13 @@ public class ChallengeResourse {
 	@Autowired
 	private ChallengeService service;
 	
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<Challenge> find(@PathVariable Long id) throws ObjectNotFoundException {
 		Challenge obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
-	@RequestMapping(method=RequestMethod.POST)
+	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
 	public ResponseEntity<Void> insert(@Valid @RequestBody ChallengeDTO objDto){
 		Challenge obj = service.fromDTO(objDto);
 		obj = service.insert(obj);
@@ -42,7 +42,7 @@ public class ChallengeResourse {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT, consumes="application/json")
 	public ResponseEntity<Void> update(@Valid @RequestBody ChallengeDTO objDto, @PathVariable Long id) throws ObjectNotFoundException{
 		Challenge obj = service.fromDTO(objDto);
 		obj.setId(id);
@@ -56,13 +56,13 @@ public class ChallengeResourse {
 		return ResponseEntity.noContent().build();
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<List<Challenge>> findAll(){
 		List<Challenge> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
-	@RequestMapping(value="/page", method=RequestMethod.GET)
+	@RequestMapping(value="/page", method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<Page<ChallengeDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
