@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Represents a Challenge for exercises or games based on words.
@@ -23,7 +24,7 @@ public class Challenge implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	private String word;
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn(name="challenge_creator")
 	private User creator;
@@ -31,6 +32,7 @@ public class Challenge implements Serializable {
 	private String videoUrl;
 	private String imageUrl;
 
+	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToMany
 	@JoinTable(
 			name = "CHALLEGE_CONTEXT",
@@ -124,7 +126,6 @@ public class Challenge implements Serializable {
 	 * 
 	 * @return the creator that owns this Challenge.
 	 */
-	@JsonIgnore
 	public User getCreator() {
 		return this.creator;
 	}
@@ -144,7 +145,6 @@ public class Challenge implements Serializable {
 	 * 
 	 * @return the Contexts related to this Challenge.
 	 */
-	@JsonIgnore
 	public Set<Context> getContexts() {
 		return this.contexts;
 	}

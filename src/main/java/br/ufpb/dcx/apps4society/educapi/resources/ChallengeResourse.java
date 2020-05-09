@@ -29,7 +29,7 @@ public class ChallengeResourse {
 	private ChallengeService service;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
+	public ResponseEntity<Challenge> find(@PathVariable Long id) throws ObjectNotFoundException {
 		Challenge obj = service.find(id);
 		return ResponseEntity.ok().body(obj);
 	}
@@ -57,10 +57,9 @@ public class ChallengeResourse {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
-	public ResponseEntity<List<ChallengeDTO>> findAll(){
+	public ResponseEntity<List<Challenge>> findAll(){
 		List<Challenge> list = service.findAll();
-		List<ChallengeDTO> listDto = list.stream().map(obj -> new ChallengeDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET)

@@ -1,5 +1,7 @@
 package br.ufpb.dcx.apps4society.educapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,9 +26,12 @@ public class User implements Serializable {
 	private Long id;
 	private String name;
 	private String email;
+	@JsonIgnore
 	private String password;
+	@JsonIgnore
 	@OneToMany(mappedBy = "creator")
 	private Set<Challenge> challenges = new HashSet<>();
+	@JsonIgnore
 	@OneToMany(mappedBy = "creator")
 	private Set<Context> contexts = new HashSet<>();
 	
@@ -120,6 +125,7 @@ public class User implements Serializable {
 	 * 
 	 * @return the user password.
 	 */
+	@JsonIgnore
 	public String getPassword() {
 		return this.password;
 	}

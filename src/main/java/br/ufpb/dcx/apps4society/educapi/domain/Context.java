@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * This class represents a set of related challenges.
@@ -30,7 +31,7 @@ public class Context implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;
-	@JsonIgnore
+
 	@ManyToOne
 	@JoinColumn(name="context_creator")
 	private User creator;
@@ -38,6 +39,7 @@ public class Context implements Serializable {
 	private String soundUrl;
 	private String videoUrl;
 
+	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@ManyToMany(mappedBy = "contexts")
 	private Set<Challenge> challenges = new HashSet<Challenge>();
 	
@@ -107,7 +109,6 @@ public class Context implements Serializable {
 	 * 
 	 * @return The user that created this Context.
 	 */
-	@JsonIgnore
 	public User getCreator() {
 		return this.creator;
 	}
