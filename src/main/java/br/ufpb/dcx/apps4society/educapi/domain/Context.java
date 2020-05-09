@@ -31,18 +31,14 @@ public class Context implements Serializable {
 	private Long id;
 	private String name;
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="context_creator")
 	private User creator;
 	private String imageUrl;
 	private String soundUrl;
 	private String videoUrl;
-	@ManyToMany(cascade = CascadeType.MERGE)
-	@JoinTable(
-			name = "CONTEXT_CHALLEGE",
-			joinColumns = @JoinColumn(name="context_id"),
-			inverseJoinColumns = @JoinColumn(name="challenge_id")
-			)
+
+	@ManyToMany(mappedBy = "contexts")
 	private Set<Challenge> challenges = new HashSet<Challenge>();
 	
 	/**
@@ -55,8 +51,8 @@ public class Context implements Serializable {
 	 * @param id The id of this Context.
 	 * @param name The Context name.
 	 * @param creator The creator of this Context.
-	 * @param image The image for this Context.
-	 * @param sound The sound for this Context.
+	 * @param imageUrl The image for this Context.
+	 * @param soundUrl The sound for this Context.
 	 * @param videoUrl The URL of a video for this Context.
 	 */
 	public Context(Long id, String name,  User creator, String imageUrl, String soundUrl, String videoUrl) {
@@ -138,7 +134,7 @@ public class Context implements Serializable {
 	/**
 	 * Changes the sound of this Context.
 	 * 
-	 * @param sound
+	 * @param soundUrl
 	 *            The sound of this Context, represented by a byte[].
 	 */
 	public void setSoundUrl(String soundUrl) {

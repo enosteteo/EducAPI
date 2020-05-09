@@ -1,7 +1,7 @@
 package br.ufpb.dcx.apps4society.educapi.services;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,7 +37,6 @@ public class ChallengeService {
 	@Transactional
 	public Challenge insert(Challenge obj) {
 		obj.setId(null);
-		userRepository.save(obj.getCreator());
 		return repo.save(obj);
 	}
 	
@@ -65,15 +64,13 @@ public class ChallengeService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
 	}
-	
+
 	public Challenge fromDTO(ChallengeDTO objDto) {
 		return new Challenge(objDto.getId(), objDto.getWord(), null, objDto.getSoundUrl(), objDto.getVideoUrl(), objDto.getImageUrl());
 	}
-	
+
 	public Challenge fromDTO(ChallengeNewDTO objDto) {
-		User user = new User(objDto.getId(), null, null, null);
-		Challenge obj = new Challenge(objDto.getId(), objDto.getWord(), user, objDto.getSoundUrl(), objDto.getVideoUrl(), objDto.getImageUrl());
-		return obj;
+		return new Challenge(objDto.getId(), objDto.getWord(), objDto.getCreator(), objDto.getSoundUrl(), objDto.getVideoUrl(), objDto.getImageUrl(), objDto.getContexts());
 	}
 	
 	private void updateData(Challenge newObj, Challenge obj) {
@@ -81,6 +78,7 @@ public class ChallengeService {
 		newObj.setSoundUrl(obj.getSoundUrl());
 		newObj.setVideoUrl(obj.getVideoUrl());
 		newObj.setImageUrl(obj.getImageUrl());
+		newObj.setContexts(obj.getContexts());
 	}
 
 }

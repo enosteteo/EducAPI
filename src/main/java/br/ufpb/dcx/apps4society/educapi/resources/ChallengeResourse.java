@@ -38,6 +38,8 @@ public class ChallengeResourse {
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody ChallengeNewDTO objDto){
 		Challenge obj = service.fromDTO(objDto);
+		System.out.println(obj.getCreator());
+		System.out.println(obj.getContexts().toString());
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();

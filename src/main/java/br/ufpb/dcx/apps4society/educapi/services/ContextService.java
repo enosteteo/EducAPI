@@ -22,8 +22,6 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundExcept
 public class ContextService {
 	@Autowired
 	private ContextRepository repo;
-	@Autowired
-	private UserRepository userRepository;
 	
 	public Context find(Long id) throws ObjectNotFoundException {
 		Optional<Context> obgOptional = repo.findById(id);
@@ -33,7 +31,6 @@ public class ContextService {
 	@Transactional
 	public Context insert(Context obj) {
 		obj.setId(null);
-		userRepository.save(obj.getCreator());
 		return repo.save(obj);
 	}
 	
@@ -62,8 +59,7 @@ public class ContextService {
 	}
 	
 	public Context fromDTO(ContextNewDTO objDto) {
-		User user = new User(objDto.getUserId(), null, null, null);
-		return new Context(objDto.getId(), objDto.getName(), user, objDto.getImageUrl(), objDto.getSoundUrl(), objDto.getVideoUrl());
+		return new Context(objDto.getId(), objDto.getName(), objDto.getCreator(), objDto.getImageUrl(), objDto.getSoundUrl(), objDto.getVideoUrl());
 	}
 	
 	private void updateData(Context newObj, Context obj) {

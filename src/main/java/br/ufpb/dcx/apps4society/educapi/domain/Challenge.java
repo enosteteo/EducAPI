@@ -2,16 +2,10 @@ package br.ufpb.dcx.apps4society.educapi.domain;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,20 +24,45 @@ public class Challenge implements Serializable {
 	private Long id;
 	private String word;
 	@JsonIgnore
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne
 	@JoinColumn(name="challenge_creator")
 	private User creator;
 	private String soundUrl;
 	private String videoUrl;
 	private String imageUrl;
-	@JsonIgnore
-	@ManyToMany(mappedBy = "challenges", cascade = CascadeType.MERGE)
+
+	@ManyToMany
+	@JoinTable(
+			name = "CHALLEGE_CONTEXT",
+			joinColumns = @JoinColumn(name="challenge_id"),
+			inverseJoinColumns = @JoinColumn(name="context_id")
+	)
 	private Set<Context> contexts = new HashSet<Context>();
 	
 	/**
 	 * Empty Constructor.
 	 */
 	public Challenge() { }
+
+	/**
+	 * Constructor
+	 * @param id The id of this Challenge.
+	 * @param word The word.
+	 * @param creator The creator of this Challenge.
+	 * @param soundUrl The soundUrl representing this Challenge.
+	 * @param videoUrl The URL of a video representing this Challenge.
+	 * @param imageUrl The imageUrl representing this Challenge.
+	 */
+	public Challenge(Long id, String word, User creator, String imageUrl, String soundUrl, String videoUrl, List<Context> contexts) {
+		this.id = id;
+		this.word = word;
+		this.creator = creator;
+		this.soundUrl = soundUrl;
+		this.videoUrl = videoUrl;
+		this.imageUrl = imageUrl;
+		this.contexts = new HashSet<Context>(contexts);
+	}
+
 	/**
 	 * Constructor
 	 * @param id The id of this Challenge.
@@ -136,7 +155,7 @@ public class Challenge implements Serializable {
 	 * @param contexts
 	 *            the Contexts related to this Challenge.
 	 */
-	public void setContextId(Set<Context> contexts) {
+	public void setContexts(Set<Context> contexts) {
 		this.contexts = contexts;
 	}
 
@@ -225,7 +244,7 @@ public class Challenge implements Serializable {
 	@Override
 	public String toString() {
 		return "Challenge [id=" + id + ", word=" + word + ", creator=" + creator + ", soundUrl=" + soundUrl
-				+ ", videoUrl=" + videoUrl + ", imageUrl=" + imageUrl + ", contexts=" + contexts + "]";
+				+ ", videoUrl=" + videoUrl + ", imageUrl=" + imageUrl + ", contexts=" + contexts.toString() + "]";
 	}
 
 

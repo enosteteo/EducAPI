@@ -1,9 +1,12 @@
 package br.ufpb.dcx.apps4society.educapi.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
 
+import br.ufpb.dcx.apps4society.educapi.domain.Context;
+import br.ufpb.dcx.apps4society.educapi.domain.User;
 import org.hibernate.validator.constraints.Length;
 
 public class ChallengeNewDTO implements Serializable{
@@ -18,7 +21,9 @@ public class ChallengeNewDTO implements Serializable{
 	private String videoUrl;
 	private String imageUrl;
 
-	private Long userId;
+	private User creator;
+
+	private List<Context> contexts;
 	
 	public ChallengeNewDTO() {}
 
@@ -62,12 +67,19 @@ public class ChallengeNewDTO implements Serializable{
 		this.imageUrl = imageUrl;
 	}
 
-	public Long getUserId() {
-		return userId;
+	public List<Context> getContexts() {
+		return contexts;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setContexts(List<Context> contexts) {
+		this.contexts = contexts;
 	}
-	
+
+	public User getCreator() {
+		return creator;
+	}
+
+	public void setCreator(User creator) {
+		this.creator = creator;
+	}
 }
