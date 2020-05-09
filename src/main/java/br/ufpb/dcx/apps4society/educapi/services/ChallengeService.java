@@ -1,7 +1,6 @@
 package br.ufpb.dcx.apps4society.educapi.services;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educapi.domain.Context;
-import br.ufpb.dcx.apps4society.educapi.domain.User;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeDTO;
-import br.ufpb.dcx.apps4society.educapi.dto.ChallengeNewDTO;
 import br.ufpb.dcx.apps4society.educapi.repositories.ChallengeRepository;
 import br.ufpb.dcx.apps4society.educapi.repositories.ContextRepository;
 import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
@@ -66,10 +63,6 @@ public class ChallengeService {
 	}
 
 	public Challenge fromDTO(ChallengeDTO objDto) {
-		return new Challenge(objDto.getId(), objDto.getWord(), null, objDto.getSoundUrl(), objDto.getVideoUrl(), objDto.getImageUrl());
-	}
-
-	public Challenge fromDTO(ChallengeNewDTO objDto) {
 		return new Challenge(objDto.getId(), objDto.getWord(), objDto.getCreator(), objDto.getSoundUrl(), objDto.getVideoUrl(), objDto.getImageUrl(), objDto.getContexts());
 	}
 	

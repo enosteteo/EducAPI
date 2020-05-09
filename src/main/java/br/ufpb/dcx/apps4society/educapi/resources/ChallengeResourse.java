@@ -19,7 +19,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeDTO;
-import br.ufpb.dcx.apps4society.educapi.dto.ChallengeNewDTO;
 import br.ufpb.dcx.apps4society.educapi.services.ChallengeService;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
@@ -36,10 +35,8 @@ public class ChallengeResourse {
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ResponseEntity<Void> insert(@Valid @RequestBody ChallengeNewDTO objDto){
+	public ResponseEntity<Void> insert(@Valid @RequestBody ChallengeDTO objDto){
 		Challenge obj = service.fromDTO(objDto);
-		System.out.println(obj.getCreator());
-		System.out.println(obj.getContexts().toString());
 		obj = service.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
@@ -49,7 +46,7 @@ public class ChallengeResourse {
 	public ResponseEntity<Void> update(@Valid @RequestBody ChallengeDTO objDto, @PathVariable Long id) throws ObjectNotFoundException{
 		Challenge obj = service.fromDTO(objDto);
 		obj.setId(id);
-		obj = service.update(obj);
+		service.update(obj);
 		return ResponseEntity.noContent().build();
 	}
 	
