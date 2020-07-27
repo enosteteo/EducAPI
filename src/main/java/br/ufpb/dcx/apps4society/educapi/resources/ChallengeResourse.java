@@ -21,12 +21,19 @@ import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
 import br.ufpb.dcx.apps4society.educapi.dto.ChallengeDTO;
 import br.ufpb.dcx.apps4society.educapi.services.ChallengeService;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
+import br.ufpb.dcx.apps4society.educapi.domain.User;
+import br.ufpb.dcx.apps4society.educapi.services.UserService;
+
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping(value="/challenges")
 public class ChallengeResourse {
 	@Autowired
 	private ChallengeService service;
+	
+	@Autowired
+	private UserService userService;
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<Challenge> find(@PathVariable Long id) throws ObjectNotFoundException {
@@ -57,7 +64,23 @@ public class ChallengeResourse {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, produces="application/json")
-	public ResponseEntity<List<Challenge>> findAll(){
+	public ResponseEntity<List<Challenge>> findAll(@RequestParam(name = "user", required = false) Long idCreator){
+		
+		if (idCreator != null) {
+			User creator;
+			try {
+				creator = userService.find(idCreator);
+			} catch (ObjectNotFoundException e) {
+				return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+			}
+
+			List<Challenge> challengesByCreator = service.findChallengesByCreator(creator);
+
+			if (challengesByCreator.size() == 0) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+			}
+			return ResponseEntity.ok().body(challengesByCreator);
+		}
 		List<Challenge> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
