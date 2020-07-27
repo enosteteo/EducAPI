@@ -33,6 +33,16 @@ public class UserDTO implements Serializable{
 		this.email = obj.getEmail();
 		this.password = obj.getPassword();
 	}
+	
+	@Override
+	public String toString() {
+		return "UserDTO{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				'}';
+	}
 
 	public Long getId() {
 		return id;
@@ -65,5 +75,6 @@ public class UserDTO implements Serializable{
 	public void setPassword(String password) {
 		this.password = password;
 	}
+	
 	
 }
