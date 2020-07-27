@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import org.hibernate.annotations.Cascade;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -39,8 +40,8 @@ public class Context implements Serializable {
 	private String soundUrl;
 	private String videoUrl;
 
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@ManyToMany(mappedBy = "contexts")
+	@ManyToMany(mappedBy = "contexts", cascade = CascadeType.PERSIST)
+	@Cascade(org.hibernate.annotations.CascadeType.REMOVE)
 	private Set<Challenge> challenges = new HashSet<Challenge>();
 	
 	/**
