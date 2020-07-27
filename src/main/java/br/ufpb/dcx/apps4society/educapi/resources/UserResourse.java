@@ -66,8 +66,8 @@ public class UserResourse {
 	@RequestMapping(value="/page", method=RequestMethod.GET, produces="application/json")
 	public ResponseEntity<Page<UserDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="nome") String orderBy, 
+			@RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage, 
+			@RequestParam(value="orderBy", defaultValue="name") String orderBy, 
 			@RequestParam(value="direction", defaultValue="ASC") String direction){
 		Page<User> list = service.findPage(page, linesPerPage, orderBy, direction);
 		Page<UserDTO> listDto = list.map(obj -> new UserDTO(obj));
