@@ -65,9 +65,9 @@ public class ContextResourse {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
-
+	
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<ContextDTO>> findAll(@RequestParam(name = "user", required = false) Long idCreator) {
+    public ResponseEntity<List<ContextDTO>> findAll(@RequestParam(name = "user", required = false) Long idCreator) throws ObjectNotFoundException {
         if (idCreator != null) {
             User creator;
             try {
