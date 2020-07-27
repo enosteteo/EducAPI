@@ -37,6 +37,10 @@ public class ChallengeService {
 		return repo.save(obj);
 	}
 	
+	public List<Challenge> findChallengesByCreator(User creator){
+		return repo.findChallengesByCreator(creator);
+	}
+	
 	public Challenge update(Challenge obj) throws ObjectNotFoundException {
 		Challenge newObj = find(obj.getId());
 		updateData(newObj, obj);
