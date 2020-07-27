@@ -13,7 +13,7 @@ public class ContextDTO  implements Serializable{
 	
 	private Long id;
 	@NotEmpty(message="Required")
-	@Length(min=5, max=50, message="The size must be between 5 and 50 characters")
+	@Length(min=2, max=50, message="The size must be between 2 and 50 characters")
 	private String name;
 	
 	private String imageUrl;
