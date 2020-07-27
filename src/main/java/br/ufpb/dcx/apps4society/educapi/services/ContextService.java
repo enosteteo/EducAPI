@@ -49,6 +49,10 @@ public class ContextService {
 		return repo.findAll();
 	}
 	
+	public List<Context> findContextsByCreator(User creator){
+		return repo.findContextsByCreator(creator);
+	}
+	
 	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return repo.findAll(pageRequest);
