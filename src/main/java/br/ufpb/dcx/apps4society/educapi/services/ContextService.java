@@ -2,6 +2,7 @@ package br.ufpb.dcx.apps4society.educapi.services;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +22,10 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundExcept
 @Service
 public class ContextService {
 	@Autowired
-	private ContextRepository repo;
+	private ContextRepository repo
+		
+	@Autowired
+	private UserService userService;
 	
 	public Context find(Long id) throws ObjectNotFoundException {
 		Optional<Context> obgOptional = repo.findById(id);
@@ -35,7 +39,7 @@ public class ContextService {
 	}
 	
 	public Context update(Context obj) throws ObjectNotFoundException {
-		Context newObj = find(obj.getId());
+		Context newObj = this.find(obj.getId());
 		updateData(newObj, obj);
 		return repo.save(newObj);
 	}
@@ -45,14 +49,21 @@ public class ContextService {
 		repo.deleteById(id);
 	}
 	
+	public boolean thisContextBelongsToThisUser(Long id, Long idCreator) throws ObjectNotFoundException{
+		Long idCreatorContext = repo.getOne(id).getCreator().getId();
+		return idCreatorContext == idCreator;
+	}
+	
 	public List<Context> findAll(){
 		return repo.findAll();
 	}
 	
-	public List<Context> findContextsByCreator(User creator) throws ObjectNotFoundException {
-		Optional<List<Context>> objOptional = repo.findContextsByCreator(creator);
-		return objOptional.orElseThrow(() -> new ObjectNotFoundException("Not register found for this user, please verify user id"));
+	public List<Context> findContextsByCreator(Long idCreator) throws ObjectNotFoundException {
+		Optional<List<Context>> objOptional = repo.findContextsByCreator(creator);			
+		User creator = userService.find(idCreator);
+		return objOptional.orElseThrow(() -> new ObjectNotFoundException("Not register found for this user, please verify user id"));			
 	}
+	
 	
 	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
