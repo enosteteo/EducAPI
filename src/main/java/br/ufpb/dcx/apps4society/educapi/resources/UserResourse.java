@@ -31,8 +31,8 @@ public class UserResourse {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
-		User obj = service.find(id);
-		return ResponseEntity.ok().body(obj);
+		UserDTO objDto = new UserDTO(obj);
+		return ResponseEntity.ok().body(objDto);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST, consumes="application/json")
@@ -58,10 +58,9 @@ public class UserResourse {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, produces="application/json")
-	public ResponseEntity<List<UserDTO>> findAll(){
+	public ResponseEntity<?>> findAll(){
 		List<User> list = service.findAll();
-		List<UserDTO> listDto = list.stream().map(obj -> new UserDTO(obj)).collect(Collectors.toList());
-		return ResponseEntity.ok().body(listDto);
+		return ResponseEntity.ok().body(list);
 	}
 	
 	@RequestMapping(value="/page", method=RequestMethod.GET, produces="application/json")
