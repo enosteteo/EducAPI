@@ -49,8 +49,9 @@ public class ContextService {
 		return repo.findAll();
 	}
 	
-	public List<Context> findContextsByCreator(User creator){
-		return repo.findContextsByCreator(creator);
+	public List<Context> findContextsByCreator(User creator) throws ObjectNotFoundException {
+		Optional<List<Context>> objOptional = repo.findContextsByCreator(creator);
+		return objOptional.orElseThrow(() -> new ObjectNotFoundException("Register not found"));
 	}
 	
 	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
