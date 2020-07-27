@@ -66,25 +66,23 @@ public class ContextResourse {
         return ResponseEntity.noContent().build();
     }
 	
+    @RequestMapping(value = "delete/{idContext}", method = RequestMethod.DELETE)
+    public ResponseEntity<Void> deleteByCreator(@PathVariable Long idContext, @RequestParam(name = "user", required = true) Long idCreator) throws ObjectNotFoundException {
+        if(service.thisContextBelongsToThisUser(idContext, idCreator)){
+            service.delete(idContext);
+            return ResponseEntity.status(201).build();
+        }
+
+        return ResponseEntity.status(403).build();
+    }
+	
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
      public ResponseEntity<?> findAll(@RequestParam(name = "user", required = false) Long idCreator) throws ObjectNotFoundException {
-        if (idCreator != null) {
-            User creator = userService.find(idCreator);
-            try {
-                creator = userService.find(idCreator);
-            } catch (ObjectNotFoundException e) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        if (idCreator != null) {          
+		return ResponseEntity.ok().body(service.findContextsByCreator(idCreator));
             }
-            List<Context> contextsByCreator = service.findContextsByCreator(creator);
-            if (contextsByCreator.size() == 0) {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-            }
-            List<ContextDTO> contextsByCreatorDTO = contextsByCreator.stream().map(obj -> new ContextDTO(obj)).collect(Collectors.toList());
-            return ResponseEntity.ok().body(contextsByCreatorDTO);
-        }
-        List<Context> list = service.findAll();
-        List<ContextDTO> listDto = list.stream().map(obj -> new ContextDTO(obj)).collect(Collectors.toList());
-        return ResponseEntity.ok().body(listDto);
+        List<Context> allContexts = service.findAll();
+        return ResponseEntity.ok().body(allContexts.stream().map(obj -> new ContextDTO(obj)).collect(Collectors.toList()));
     }
 
     @RequestMapping(value = "/page", method = RequestMethod.GET, produces = "application/json")
