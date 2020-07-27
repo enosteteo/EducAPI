@@ -67,9 +67,9 @@ public class ContextResourse {
     }
 	
     @RequestMapping(method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<List<ContextDTO>> findAll(@RequestParam(name = "user", required = false) Long idCreator) throws ObjectNotFoundException {
+     public ResponseEntity<?> findAll(@RequestParam(name = "user", required = false) Long idCreator) throws ObjectNotFoundException {
         if (idCreator != null) {
-            User creator;
+            User creator = userService.find(idCreator);
             try {
                 creator = userService.find(idCreator);
             } catch (ObjectNotFoundException e) {
