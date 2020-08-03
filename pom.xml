@@ -6,7 +6,7 @@
 
 	<groupId>br.ufpb.dcx.apps4society.educapi</groupId>
 	<artifactId>EducAPI</artifactId>
-	<version>1.0.1</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>EducAPI</name>
