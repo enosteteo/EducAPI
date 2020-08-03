@@ -22,7 +22,7 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundExcept
 @Service
 public class ContextService {
 	@Autowired
-	private ContextRepository repo
+	private ContextRepository repo;
 		
 	@Autowired
 	private UserService userService;
@@ -59,8 +59,8 @@ public class ContextService {
 	}
 	
 	public List<Context> findContextsByCreator(Long idCreator) throws ObjectNotFoundException {
-		Optional<List<Context>> objOptional = repo.findContextsByCreator(creator);			
 		User creator = userService.find(idCreator);
+		Optional<List<Context>> objOptional = repo.findContextsByCreator(creator);
 		return objOptional.orElseThrow(() -> new ObjectNotFoundException("Not register found for this user, please verify user id"));			
 	}
 	

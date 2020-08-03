@@ -16,7 +16,7 @@ public class ChallengeDTO implements Serializable{
 	
 	private Long id;
 	@NotEmpty(message="Required")
-	@Length(min=2, max=72, message="The size must be between 2 and 72 characters"
+	@Length(min=2, max=72, message="The size must be between 2 and 72 characters")
 	private String word;
 	
 	private String soundUrl;

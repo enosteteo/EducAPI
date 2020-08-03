@@ -31,6 +31,7 @@ public class UserResourse {
 	
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces="application/json")
 	public ResponseEntity<?> find(@PathVariable Long id) throws ObjectNotFoundException {
+		User obj = service.find(id);
 		UserDTO objDto = new UserDTO(obj);
 		return ResponseEntity.ok().body(objDto);
 	}
@@ -58,7 +59,7 @@ public class UserResourse {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, produces="application/json")
-	public ResponseEntity<?>> findAll(){
+	public ResponseEntity<List<User>> findAll(){
 		List<User> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}

@@ -32,9 +32,6 @@ public class ContextResourse {
 	@Autowired
 	private ContextService service;
 	
-	@Autowired
-	private ContextService service;
-	
 	 @Autowired
     private UserService userService;
 
