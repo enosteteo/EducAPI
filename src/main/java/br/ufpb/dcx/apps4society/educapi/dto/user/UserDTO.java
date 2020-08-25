@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educapi.dto;
+package br.ufpb.dcx.apps4society.educapi.dto.user;
 
 import java.io.Serializable;
 
@@ -26,14 +26,18 @@ public class UserDTO implements Serializable{
 	private String password;
 	
 	public UserDTO() {}
-	
+
+	public User userDTOToUser(){
+		return new User(id, name, email, password);
+	}
+
 	public UserDTO(User obj) {
 		this.id = obj.getId();
 		this.name = obj.getName();
 		this.email = obj.getEmail();
 		this.password = obj.getPassword();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "UserDTO{" +

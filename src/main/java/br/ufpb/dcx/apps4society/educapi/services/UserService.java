@@ -3,63 +3,75 @@ package br.ufpb.dcx.apps4society.educapi.services;
 import java.util.List;
 import java.util.Optional;
 
+import br.ufpb.dcx.apps4society.educapi.dto.user.UserRegisterDTO;
+import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException;
+import br.ufpb.dcx.apps4society.educapi.services.exceptions.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
 import br.ufpb.dcx.apps4society.educapi.domain.User;
-import br.ufpb.dcx.apps4society.educapi.dto.UserDTO;
+import br.ufpb.dcx.apps4society.educapi.dto.user.UserDTO;
 import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
-import br.ufpb.dcx.apps4society.educapi.services.exceptions.DataIntegrityException;
-import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class UserService {
+
 	@Autowired
-	private UserRepository repo;
+	private JWTService jwtService;
+
+	@Autowired
+	private UserRepository userRepository;
 	
-	public User find(Long id) throws ObjectNotFoundException {
-		Optional<User> obgOptional = repo.findById(id);
-		return obgOptional.orElseThrow(() -> new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + User.class.getName()));
-	}
-	
-	public User insert(User obj) {
-		obj.setId(null);
-		return repo.save(obj);
-	}
-	
-	public User update(User obj) throws ObjectNotFoundException {
-		User newObj = find(obj.getId());
-		updateData(newObj, obj);
-		return repo.save(newObj);
-	}
-	
-	public void delete(Long id) throws ObjectNotFoundException, DataIntegrityException {
-		find(id);
-		try {
-			repo.deleteById(id);
-		}catch (DataIntegrityViolationException e) {
-			throw new DataIntegrityException("Isn't not possible delete user with related Challenges and Contexts");
+	public User find(String token){
+		Optional<String> userEmail = jwtService.recoverUser(token);
+
+		if (userEmail.isEmpty()){
+			throw new InvalidUserException("Invalid user! Please check the token.");
 		}
+
+		Optional<User> obgOptional = userRepository.findByEmail(userEmail.get());
+		return obgOptional.get();
+	}
+	
+	public UserDTO insert(UserRegisterDTO userDTO) throws UserAlreadyExistsException {
+		Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
+
+		if (userOptional.isPresent()){
+			throw new UserAlreadyExistsException("There is already a user with this e-mail registered in the system!");
+		}
+
+		User user = userDTO.userRegisterDtoToUser();
+
+		userRepository.save(user);
+		return new UserDTO(user);
+	}
+
+	public UserDTO update(String token, UserRegisterDTO user) {
+		User newObj = find(token);
+		updateData(newObj, user);
+		userRepository.save(newObj);
+		return new UserDTO(newObj);
+	}
+	
+	public UserDTO delete(String token) {
+		User user = find(token);
+		userRepository.deleteById(user.getId());
+		return new UserDTO(user);
 	}
 	
 	public List<User> findAll(){
-		return repo.findAll();
+		return userRepository.findAll();
 	}
 	
 	public Page<User> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return repo.findAll(pageRequest);
+		return userRepository.findAll(pageRequest);
 	}
-	
-	public User fromDTO(UserDTO objDto) {
-		return new User(objDto.getId(), objDto.getName(), objDto.getEmail(), objDto.getPassword());
-	}
-	
-	private void updateData(User newObj, User obj) {
+
+	private void updateData(User newObj, UserRegisterDTO obj) {
 		newObj.setName(obj.getName());
 		newObj.setEmail(obj.getEmail());
 		newObj.setPassword(obj.getPassword());

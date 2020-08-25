@@ -1,6 +1,7 @@
-package br.ufpb.dcx.apps4society.educapi.dto;
+package br.ufpb.dcx.apps4society.educapi.dto.challenge;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
@@ -25,12 +26,15 @@ public class ChallengeDTO implements Serializable{
 
 	private User creator;
 
-	private List<Context> contexts;
+	private List<Context> contexts = new ArrayList<>();
+
+	public Challenge challengeDTOToChallenge(){
+		return new Challenge(id, word, creator, imageUrl, soundUrl, videoUrl, contexts);
+	}
 	
 	public ChallengeDTO() {}
 	
 	public ChallengeDTO(Challenge obj) {
-		this.id = obj.getId();
 		this.word = obj.getWord();
 		this.soundUrl = obj.getSoundUrl();
 		this.videoUrl = obj.getVideoUrl();

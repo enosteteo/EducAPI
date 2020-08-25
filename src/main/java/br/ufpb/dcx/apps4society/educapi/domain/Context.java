@@ -67,6 +67,30 @@ public class Context implements Serializable {
 		this.videoUrl = videoUrl;
 	}
 
+	public Context(Long id, String name, String imageUrl, String soundUrl, String videoUrl) {
+		this.id = id;
+		this.name = name;
+		this.imageUrl = imageUrl;
+		this.soundUrl = soundUrl;
+		this.videoUrl = videoUrl;
+	}
+
+	public Context(String name, String imageUrl, String soundUrl, String videoUrl) {
+		this.name = name;
+		this.imageUrl = imageUrl;
+		this.soundUrl = soundUrl;
+		this.videoUrl = videoUrl;
+	}
+
+	public Context(Long id, String name, String imageUrl, String soundUrl, String videoUrl, User creator) {
+		this.id = id;
+		this.name = name;
+		this.imageUrl = imageUrl;
+		this.soundUrl = soundUrl;
+		this.videoUrl = videoUrl;
+		this.creator = creator;
+	}
+
 	/**
 	 * Gets the name of this Context.
 	 * 

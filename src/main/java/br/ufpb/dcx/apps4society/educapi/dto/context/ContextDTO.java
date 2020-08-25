@@ -1,4 +1,4 @@
-package br.ufpb.dcx.apps4society.educapi.dto;
+package br.ufpb.dcx.apps4society.educapi.dto.context;
 
 import java.io.Serializable;
 import br.ufpb.dcx.apps4society.educapi.domain.User;
@@ -10,7 +10,7 @@ import br.ufpb.dcx.apps4society.educapi.domain.Context;
 
 public class ContextDTO  implements Serializable{
 	private static final long serialVersionUID = 1L;
-	
+
 	private Long id;
 	@NotEmpty(message="Required")
 	@Length(min=2, max=50, message="The size must be between 2 and 50 characters")
@@ -19,18 +19,21 @@ public class ContextDTO  implements Serializable{
 	private String imageUrl;
 	private String soundUrl;
 	private String videoUrl;
-	private User creator;
-	
+
 	public ContextDTO() {}
-	
+
 	public ContextDTO(Context obj) {
 		this.id = obj.getId();
 		this.name = obj.getName();
 		this.imageUrl = obj.getImageUrl();
 		this.soundUrl = obj.getSoundUrl();
 		this.videoUrl = obj.getVideoUrl();
-	}	
-	
+	}
+
+	public Context toContext(){
+		return new Context(id, name, imageUrl, soundUrl, videoUrl);
+	}
+
 	@Override
 	public String toString() {
 		return "ContextDTO{" +
@@ -39,18 +42,9 @@ public class ContextDTO  implements Serializable{
 				", imageUrl='" + imageUrl + '\'' +
 				", soundUrl='" + soundUrl + '\'' +
 				", videoUrl='" + videoUrl + '\'' +
-				", creator=" + creator +
 				'}';
 	}
 
-	public User getCreator() {
-		return creator;
-	}
-
-	public void setCreator(User creator) {
-		this.creator = creator;
-	}
-	
 	public Long getId() {
 		return id;
 	}

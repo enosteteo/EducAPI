@@ -35,7 +35,7 @@ public class Challenge implements Serializable {
 	@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
 	@ManyToMany
 	@JoinTable(
-			name = "CHALLEGE_CONTEXT",
+			name = "CHALLENGE_CONTEXT",
 			joinColumns = @JoinColumn(name="challenge_id"),
 			inverseJoinColumns = @JoinColumn(name="context_id")
 	)
@@ -65,6 +65,7 @@ public class Challenge implements Serializable {
 		this.contexts = new HashSet<Context>(contexts);
 	}
 
+
 	/**
 	 * Constructor
 	 * @param id The id of this Challenge.
@@ -78,6 +79,13 @@ public class Challenge implements Serializable {
 		this.id = id;
 		this.word = word;
 		this.creator = creator;
+		this.soundUrl = soundUrl;
+		this.videoUrl = videoUrl;
+		this.imageUrl = imageUrl;
+	}
+
+	public Challenge(String word, String imageUrl, String soundUrl, String videoUrl) {
+		this.word = word;
 		this.soundUrl = soundUrl;
 		this.videoUrl = videoUrl;
 		this.imageUrl = imageUrl;

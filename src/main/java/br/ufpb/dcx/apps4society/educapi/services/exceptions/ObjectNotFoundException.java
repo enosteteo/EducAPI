@@ -11,4 +11,7 @@ public class ObjectNotFoundException extends Exception{
 		super(msg, cause);
 	}
 
+    public ObjectNotFoundException() {
+
+    }
 }

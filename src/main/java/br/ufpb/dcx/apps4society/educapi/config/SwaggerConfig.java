@@ -8,6 +8,7 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.builders.ResponseMessageBuilder;
 import springfox.documentation.schema.ModelRef;
+import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -26,8 +27,21 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("br.ufpb.dcx.apps4society.educapi.resources"))
                 .paths(PathSelectors.any())
                 .build()
+                .apiInfo(apiInfo())
                 .useDefaultResponseMessages(false)
                 .globalResponseMessage(RequestMethod.GET, responseMessageForGET());
+    }
+
+    private ApiInfo apiInfo() {
+        return new ApiInfo(
+                "EducAPI",
+                "Plataforma colaborativa de contextos para aplicativos de alfabetização.",
+                "Versão API 1.0",
+                "Termos de uso",
+                "apps4society@dcx.ufpb.br",
+                "API License",
+                "API License URL"
+        );
     }
 
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {

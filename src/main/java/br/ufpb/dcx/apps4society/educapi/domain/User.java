@@ -6,11 +6,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 /**
  * Represents a User that created a Challenge or Context.
@@ -29,10 +25,10 @@ public class User implements Serializable {
 	@JsonIgnore
 	private String password;
 	@JsonIgnore
-	@OneToMany(mappedBy = "creator")
+	@OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
 	private Set<Challenge> challenges = new HashSet<>();
 	@JsonIgnore
-	@OneToMany(mappedBy = "creator")
+	@OneToMany(mappedBy = "creator", cascade = CascadeType.ALL)
 	private Set<Context> contexts = new HashSet<>();
 	
 	/**
@@ -40,6 +36,12 @@ public class User implements Serializable {
 	 * 
 	 */
 	public User() {}
+
+	public User(String name, String email, String password) {
+		this.name = name;
+		this.setEmail(email);
+		this.setPassword(password);
+	}
 	
 	/**
 	 * Constructor
