@@ -1,0 +1,37 @@
+version: '3.5'
+
+services:
+
+    educapi:
+        container_name: educapi
+        build:
+            context: .
+        restart: always
+        ports:
+            - "8080:8080"
+        networks:
+            - educapi-network
+        depends_on:
+            - db
+
+    db:
+        container_name: postgres-educapi
+        image: postgres:12.3
+        restart: always
+        networks:
+            - educapi-network
+        volumes:
+            - postgres-educapi:/data/postgres
+        environment:
+            POSTGRES_USER: postgres
+            POSTGRES_PASSWORD: 5gJUc8v226TL9u
+            POSTGRES_DB: educapi
+            PGDATA: /data/postgres
+
+
+volumes:
+    postgres-educapi:
+
+networks: 
+    educapi-network:
+        driver: bridge
