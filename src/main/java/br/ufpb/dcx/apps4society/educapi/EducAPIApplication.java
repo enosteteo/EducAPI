@@ -18,7 +18,7 @@ public class EducAPIApplication implements CommandLineRunner {
 	@GetMapping("/")
     @ResponseBody
 	String index() {
-      return "Welcome to EducAPI! | VERSION: 0.0.1-SNAPSHOT";
+      return "Welcome to EducAPI! | VERSION: v1.0.3";
     }
 	
 	@Override
