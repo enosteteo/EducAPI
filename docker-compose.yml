@@ -24,7 +24,7 @@ services:
             - postgres-educapi:/data/postgres
         environment:
             POSTGRES_USER: postgres
-            POSTGRES_PASSWORD: 5gJUc8v226TL9u
+            POSTGRES_PASSWORD: postgres
             POSTGRES_DB: educapi
             PGDATA: /data/postgres
 
