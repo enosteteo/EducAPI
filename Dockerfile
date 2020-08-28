@@ -1,4 +1,10 @@
-FROM openjdk:8-jdk-alpine
+FROM openjdk:11-jdk
 EXPOSE 8080
-ADD /target/EducAPI.jar .
+COPY . .
+RUN ./mvnw clean
+RUN ./mvnw install
+WORKDIR /target
 ENTRYPOINT ["java", "-jar", "EducAPI.jar"]
+
+
+
