@@ -8,6 +8,7 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -95,8 +96,12 @@ public class ChallengeService {
 		}
 	}
 
-	public List<Challenge> findAll(){
-		return challengeRepository.findAll();
+	public Page<Challenge> findAll(Pageable pageable){
+		return challengeRepository.findAll(pageable);
+	}
+
+	public Page<Challenge> findByWordPrefix(String word, Pageable pageable) {
+		return challengeRepository.findByWordStartsWithIgnoreCase(word, pageable);
 	}
 
 	public Page<Challenge> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
