@@ -1,5 +1,6 @@
 package br.ufpb.dcx.apps4society.educapi.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -91,6 +92,24 @@ public class ContextService {
 		List<Context> contextListByCreator = contextRepository.findContextsByCreator(user);
 
 		return contextListByCreator.stream().map(ContextDTO::new).collect(Collectors.toList());
+	}
+
+	public List<Context> findContextsByEmail(String email) throws InvalidUserException {
+		Optional<User> userOptional = userRepository.findByEmail(email);
+		if (userOptional.isEmpty()){
+			throw new InvalidUserException();
+		}
+
+		return new ArrayList<>(userOptional.get().getContexts());
+	}
+
+	public List<Context> findContextsByNamePrefix(String name) throws ObjectNotFoundException {
+		Optional<List<Context>> optionalContexts = contextRepository.findByNameStartsWithIgnoreCase(name);
+		if (optionalContexts.isEmpty()){
+			throw new ObjectNotFoundException();
+		}
+
+		return optionalContexts.get();
 	}
 
 	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
