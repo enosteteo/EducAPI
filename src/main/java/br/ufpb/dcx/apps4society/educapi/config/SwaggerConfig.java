@@ -27,9 +27,7 @@ public class SwaggerConfig {
                 .apis(RequestHandlerSelectors.basePackage("br.ufpb.dcx.apps4society.educapi.resources"))
                 .paths(PathSelectors.any())
                 .build()
-                .apiInfo(apiInfo())
-                .useDefaultResponseMessages(false)
-                .globalResponseMessage(RequestMethod.GET, responseMessageForGET());
+                .apiInfo(apiInfo());
     }
 
     private ApiInfo apiInfo() {
@@ -44,26 +42,4 @@ public class SwaggerConfig {
         );
     }
 
-    protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("swagger-ui.html")
-                .addResourceLocations("classpath:/META-INF/resources/");
-
-        registry.addResourceHandler("/webjars/**")
-                .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    }
-
-    private List<ResponseMessage> responseMessageForGET()
-    {
-        return new ArrayList<ResponseMessage>() {{
-            add(new ResponseMessageBuilder()
-                    .code(500)
-                    .message("500 message")
-                    .responseModel(new ModelRef("Error"))
-                    .build());
-            add(new ResponseMessageBuilder()
-                    .code(403)
-                    .message("Forbidden!")
-                    .build());
-        }};
-    }
 }
