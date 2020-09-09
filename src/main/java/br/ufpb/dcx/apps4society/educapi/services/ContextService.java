@@ -12,6 +12,7 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,11 +33,7 @@ public class ContextService {
 	@Autowired
 	private UserRepository userRepository;
 
-	public Context find(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
-		Optional<String> usuarioId = jwtService.recoverUser(token);
-		if (usuarioId.isEmpty()){
-			throw new InvalidUserException();
-		}
+	public Context find(Long id) throws ObjectNotFoundException {
 
 		Optional<Context> obgOptional = contextRepository.findById(id);
 		if (obgOptional.isEmpty()){
@@ -59,7 +56,7 @@ public class ContextService {
 	public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
-		Context newObj = find(token, id);
+		Context newObj = find(id);
 		if (!newObj.getCreator().equals(user)){
 			throw new InvalidUserException();
 		}
@@ -72,7 +69,7 @@ public class ContextService {
 	public ContextDTO delete(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
-		Context context = find(token, id);
+		Context context = find(id);
 		if (!context.getCreator().equals(user)){
 			throw new InvalidUserException();
 		}
@@ -80,10 +77,8 @@ public class ContextService {
 		return new ContextDTO(context);
 	}
 
-	public List<ContextDTO> findAll(){
-		List<Context> contextList = contextRepository.findAll();
-
-		return contextList.stream().map(ContextDTO::new).collect(Collectors.toList());
+	public Page<Context> findAll(Pageable pageable){
+		return contextRepository.findAll(pageable);
 	}
 
 	public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
@@ -103,13 +98,8 @@ public class ContextService {
 		return new ArrayList<>(userOptional.get().getContexts());
 	}
 
-	public List<Context> findContextsByNamePrefix(String name) throws ObjectNotFoundException {
-		Optional<List<Context>> optionalContexts = contextRepository.findByNameStartsWithIgnoreCase(name);
-		if (optionalContexts.isEmpty()){
-			throw new ObjectNotFoundException();
-		}
-
-		return optionalContexts.get();
+	public Page<Context> findContextsByNamePrefix(String name, Pageable pageable) {
+		return contextRepository.findByNameStartsWithIgnoreCase(name, pageable);
 	}
 
 	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
