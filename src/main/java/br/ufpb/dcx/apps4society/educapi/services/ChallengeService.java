@@ -32,8 +32,8 @@ public class ChallengeService {
 
 	@Autowired
 	private ContextRepository contextRepository;
-	
-	public Challenge find(String token, Long id) throws ObjectNotFoundException {
+
+	public Challenge find(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
 		Optional<String> usuarioId = jwtService.recoverUser(token);
 		if (usuarioId.isEmpty()){
 			throw new InvalidUserException();
@@ -46,9 +46,9 @@ public class ChallengeService {
 
 		return challengeOptional.get();
 	}
-	
+
 	@Transactional
-	public Challenge insert(String token, ChallengeRegisterDTO obj, Long contextID) throws ObjectNotFoundException {
+	public Challenge insert(String token, ChallengeRegisterDTO obj, Long contextID) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Optional<Context> contextOptional = contextRepository.findById(contextID);
@@ -62,13 +62,13 @@ public class ChallengeService {
 
 		return challengeRepository.save(challenge);
 	}
-	
-	public List<Challenge> findChallengesByCreator(String token) throws ObjectNotFoundException {
+
+	public List<Challenge> findChallengesByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 		return challengeRepository.findChallengesByCreator(user);
 	}
-	
-	public Challenge update(String token, ChallengeRegisterDTO obj, Long id) throws ObjectNotFoundException {
+
+	public Challenge update(String token, ChallengeRegisterDTO obj, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Challenge newObj = find(token, id);
@@ -79,8 +79,8 @@ public class ChallengeService {
 		updateData(newObj, obj.toChallenge());
 		return challengeRepository.save(newObj);
 	}
-	
-	public void delete(String token, Long id) throws ObjectNotFoundException{
+
+	public void delete(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Challenge obj = find(token, id);
@@ -94,17 +94,17 @@ public class ChallengeService {
 			throw new InvalidUserException();
 		}
 	}
-	
+
 	public List<Challenge> findAll(){
 		return challengeRepository.findAll();
 	}
-	
+
 	public Page<Challenge> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return challengeRepository.findAll(pageRequest);
 	}
 
-	private User validateUser(String token) throws ObjectNotFoundException {
+	private User validateUser(String token) throws ObjectNotFoundException, InvalidUserException {
 		Optional<String> userEmail = jwtService.recoverUser(token);
 		if (userEmail.isEmpty()){
 			throw new InvalidUserException();

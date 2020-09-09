@@ -24,8 +24,8 @@ public class UserService {
 
 	@Autowired
 	private UserRepository userRepository;
-	
-	public User find(String token){
+
+	public User find(String token) throws InvalidUserException {
 		Optional<String> userEmail = jwtService.recoverUser(token);
 
 		if (userEmail.isEmpty()){
@@ -35,7 +35,7 @@ public class UserService {
 		Optional<User> obgOptional = userRepository.findByEmail(userEmail.get());
 		return obgOptional.get();
 	}
-	
+
 	public UserDTO insert(UserRegisterDTO userDTO) throws UserAlreadyExistsException {
 		Optional<User> userOptional = userRepository.findByEmail(userDTO.getEmail());
 
@@ -49,23 +49,23 @@ public class UserService {
 		return new UserDTO(user);
 	}
 
-	public UserDTO update(String token, UserRegisterDTO user) {
+	public UserDTO update(String token, UserRegisterDTO user) throws InvalidUserException {
 		User newObj = find(token);
 		updateData(newObj, user);
 		userRepository.save(newObj);
 		return new UserDTO(newObj);
 	}
-	
-	public UserDTO delete(String token) {
+
+	public UserDTO delete(String token) throws InvalidUserException {
 		User user = find(token);
 		userRepository.deleteById(user.getId());
 		return new UserDTO(user);
 	}
-	
+
 	public List<User> findAll(){
 		return userRepository.findAll();
 	}
-	
+
 	public Page<User> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return userRepository.findAll(pageRequest);

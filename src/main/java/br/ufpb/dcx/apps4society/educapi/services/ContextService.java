@@ -27,11 +27,11 @@ public class ContextService {
 
 	@Autowired
 	private ContextRepository contextRepository;
-		
+
 	@Autowired
 	private UserRepository userRepository;
-	
-	public Context find(String token, Long id) throws ObjectNotFoundException {
+
+	public Context find(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
 		Optional<String> usuarioId = jwtService.recoverUser(token);
 		if (usuarioId.isEmpty()){
 			throw new InvalidUserException();
@@ -43,9 +43,9 @@ public class ContextService {
 		}
 		return obgOptional.get();
 	}
-	
+
 	@Transactional
-	public ContextDTO insert(String token, ContextRegisterDTO contextRegisterDTO) throws ObjectNotFoundException {
+	public ContextDTO insert(String token, ContextRegisterDTO contextRegisterDTO) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Context context = contextRegisterDTO.toContext();
@@ -54,8 +54,8 @@ public class ContextService {
 		contextRepository.save(context);
 		return new ContextDTO(context);
 	}
-	
-	public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException {
+
+	public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Context newObj = find(token, id);
@@ -67,8 +67,8 @@ public class ContextService {
 		contextRepository.save(newObj);
 		return new ContextDTO(newObj);
 	}
-	
-	public ContextDTO delete(String token, Long id) throws ObjectNotFoundException{
+
+	public ContextDTO delete(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Context context = find(token, id);
@@ -85,7 +85,7 @@ public class ContextService {
 		return contextList.stream().map(ContextDTO::new).collect(Collectors.toList());
 	}
 
-	public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException {
+	public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		List<Context> contextListByCreator = contextRepository.findContextsByCreator(user);
@@ -97,15 +97,15 @@ public class ContextService {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return contextRepository.findAll(pageRequest);
 	}
-	
+
 	private void updateData(Context newObj, Context obj) {
 		newObj.setName(obj.getName());
-		newObj.setImageUrl(obj.getImageUrl());		
+		newObj.setImageUrl(obj.getImageUrl());
 		newObj.setSoundUrl(obj.getSoundUrl());
 		newObj.setVideoUrl(obj.getVideoUrl());
 	}
 
-	private User validateUser(String token) throws ObjectNotFoundException {
+	private User validateUser(String token) throws ObjectNotFoundException, InvalidUserException {
 		Optional<String> userEmail = jwtService.recoverUser(token);
 		if (userEmail.isEmpty()){
 			throw new InvalidUserException();
