@@ -28,7 +28,7 @@ public class ChallengeRegisterDTO implements Serializable {
     }
 
     public Challenge toChallenge(){
-        return new Challenge(word, soundUrl, videoUrl, imageUrl);
+        return new Challenge(word, imageUrl, soundUrl, videoUrl);
     }
 
     public String getWord() {
