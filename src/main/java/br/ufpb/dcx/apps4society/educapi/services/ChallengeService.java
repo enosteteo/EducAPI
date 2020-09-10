@@ -128,7 +128,6 @@ public class ChallengeService {
 		newObj.setSoundUrl(obj.getSoundUrl());
 		newObj.setVideoUrl(obj.getVideoUrl());
 		newObj.setImageUrl(obj.getImageUrl());
-		newObj.setContexts(obj.getContexts());
 	}
 
 }
