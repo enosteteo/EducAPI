@@ -9,11 +9,11 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import br.ufpb.dcx.apps4society.educapi.domain.Challenge;
-import br.ufpb.dcx.apps4society.educapi.dto.challenge.ChallengeDTO;
 import br.ufpb.dcx.apps4society.educapi.services.ChallengeService;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundException;
 
@@ -92,21 +92,24 @@ public class ChallengeResource {
 		}
 	}
 
-	@ApiOperation("Resturns a list of all Challenges registered in the service.")
+	@ApiOperation("Returns a page with Challenges registered in the service.")
 	@GetMapping("challenges")
-	public ResponseEntity<List<Challenge>> findAllChallenges(){
-		return new ResponseEntity<List<Challenge>>(challengeService.findAll(), HttpStatus.OK);
+	public ResponseEntity<Page<Challenge>> findAllChallenges(
+			@RequestParam(value = "size", defaultValue = "20") Integer size,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			Pageable pageable){
+		return new ResponseEntity<>(challengeService.findAll(pageable), HttpStatus.OK);
 	}
-	
-	@RequestMapping(value="/page", method=RequestMethod.GET, produces="application/json")
-	public ResponseEntity<Page<ChallengeDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page, 
-			@RequestParam(value="linesPerPage", defaultValue="10") Integer linesPerPage, 
-			@RequestParam(value="orderBy", defaultValue="word") String orderBy, 
-			@RequestParam(value="direction", defaultValue="ASC") String direction){
-		Page<Challenge> list = challengeService.findPage(page, linesPerPage, orderBy, direction);
-		Page<ChallengeDTO> listDto = list.map(obj -> new ChallengeDTO(obj));
-		return ResponseEntity.ok().body(listDto);
+
+	@ApiOperation("Returns a page with Challenges started with the word sent in the request.")
+	@GetMapping("challenges/prefix")
+	public ResponseEntity<Page<Challenge>> findChallengesByPrefix(
+			@RequestParam(value = "word") String word,
+			@RequestParam(value = "size", defaultValue = "20") Integer size,
+			@RequestParam(value = "page", defaultValue = "0") Integer page,
+			Pageable pageable){
+		return new ResponseEntity<>(challengeService.findByWordPrefix(word, pageable), HttpStatus.OK);
 	}
+
 
 }

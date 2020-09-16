@@ -1,5 +1,6 @@
 package br.ufpb.dcx.apps4society.educapi.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,6 +12,7 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,15 +29,11 @@ public class ContextService {
 
 	@Autowired
 	private ContextRepository contextRepository;
-		
+
 	@Autowired
 	private UserRepository userRepository;
-	
-	public Context find(String token, Long id) throws ObjectNotFoundException {
-		Optional<String> usuarioId = jwtService.recoverUser(token);
-		if (usuarioId.isEmpty()){
-			throw new InvalidUserException();
-		}
+
+	public Context find(Long id) throws ObjectNotFoundException {
 
 		Optional<Context> obgOptional = contextRepository.findById(id);
 		if (obgOptional.isEmpty()){
@@ -43,9 +41,9 @@ public class ContextService {
 		}
 		return obgOptional.get();
 	}
-	
+
 	@Transactional
-	public ContextDTO insert(String token, ContextRegisterDTO contextRegisterDTO) throws ObjectNotFoundException {
+	public ContextDTO insert(String token, ContextRegisterDTO contextRegisterDTO) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		Context context = contextRegisterDTO.toContext();
@@ -54,11 +52,11 @@ public class ContextService {
 		contextRepository.save(context);
 		return new ContextDTO(context);
 	}
-	
-	public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException {
+
+	public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
-		Context newObj = find(token, id);
+		Context newObj = find(id);
 		if (!newObj.getCreator().equals(user)){
 			throw new InvalidUserException();
 		}
@@ -67,11 +65,11 @@ public class ContextService {
 		contextRepository.save(newObj);
 		return new ContextDTO(newObj);
 	}
-	
-	public ContextDTO delete(String token, Long id) throws ObjectNotFoundException{
+
+	public ContextDTO delete(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
-		Context context = find(token, id);
+		Context context = find(id);
 		if (!context.getCreator().equals(user)){
 			throw new InvalidUserException();
 		}
@@ -79,13 +77,11 @@ public class ContextService {
 		return new ContextDTO(context);
 	}
 
-	public List<ContextDTO> findAll(){
-		List<Context> contextList = contextRepository.findAll();
-
-		return contextList.stream().map(ContextDTO::new).collect(Collectors.toList());
+	public Page<Context> findAll(Pageable pageable){
+		return contextRepository.findAll(pageable);
 	}
 
-	public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException {
+	public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
 		User user = validateUser(token);
 
 		List<Context> contextListByCreator = contextRepository.findContextsByCreator(user);
@@ -93,19 +89,32 @@ public class ContextService {
 		return contextListByCreator.stream().map(ContextDTO::new).collect(Collectors.toList());
 	}
 
+	public List<Context> findContextsByEmail(String email) throws InvalidUserException {
+		Optional<User> userOptional = userRepository.findByEmail(email);
+		if (userOptional.isEmpty()){
+			throw new InvalidUserException();
+		}
+
+		return new ArrayList<>(userOptional.get().getContexts());
+	}
+
+	public Page<Context> findContextsByNamePrefix(String name, Pageable pageable) {
+		return contextRepository.findByNameStartsWithIgnoreCase(name, pageable);
+	}
+
 	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		return contextRepository.findAll(pageRequest);
 	}
-	
+
 	private void updateData(Context newObj, Context obj) {
 		newObj.setName(obj.getName());
-		newObj.setImageUrl(obj.getImageUrl());		
+		newObj.setImageUrl(obj.getImageUrl());
 		newObj.setSoundUrl(obj.getSoundUrl());
 		newObj.setVideoUrl(obj.getVideoUrl());
 	}
 
-	private User validateUser(String token) throws ObjectNotFoundException {
+	private User validateUser(String token) throws ObjectNotFoundException, InvalidUserException {
 		Optional<String> userEmail = jwtService.recoverUser(token);
 		if (userEmail.isEmpty()){
 			throw new InvalidUserException();

@@ -8,6 +8,7 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,26 +23,23 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundExcept
 @CrossOrigin("*")
 public class ContextResource {
 
-	@Autowired
-	private ContextService contextService;
+    @Autowired
+    private ContextService contextService;
 
-	@ApiOperation("Returns a Context, if the token and the Context ID are valid.")
-    @GetMapping("auth/contexts/{idContext}")
-    public ResponseEntity<Context> find(@RequestHeader("Authorization") String token,
-                                        @PathVariable Long idContext) {
+    @ApiOperation("Returns a Context, if the Context ID are valid.")
+    @GetMapping("contexts/{idContext}")
+    public ResponseEntity<Context> find(@PathVariable Long idContext) {
         try {
-            return new ResponseEntity<Context>(contextService.find(token, idContext), HttpStatus.OK);
+            return new ResponseEntity<Context>(contextService.find(idContext), HttpStatus.OK);
         }catch (ObjectNotFoundException exception){
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }catch (InvalidUserException exception){
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
     }
 
     @ApiOperation("Adds a new Context to the service, if the token is valid.")
     @PostMapping("auth/contexts")
     public ResponseEntity<ContextDTO> insert(@RequestHeader("Authorization") String token,
-                                          @Valid @RequestBody ContextRegisterDTO objDto) {
+                                             @Valid @RequestBody ContextRegisterDTO objDto) {
         try {
             return new ResponseEntity<ContextDTO>(contextService.insert(token, objDto), HttpStatus.CREATED);
         }catch (ObjectNotFoundException exception){
@@ -54,8 +52,8 @@ public class ContextResource {
     @ApiOperation("Updates a User Context, if the token and the Context ID are valid.")
     @PutMapping("auth/contexts/{idContext}")
     public ResponseEntity<ContextDTO> update(@RequestHeader("Authorization") String token,
-                                          @Valid @RequestBody ContextRegisterDTO objDto,
-                                          @PathVariable Long idContext) {
+                                             @Valid @RequestBody ContextRegisterDTO objDto,
+                                             @PathVariable Long idContext) {
         try {
             return new ResponseEntity<ContextDTO>(contextService.update(token, objDto, idContext), HttpStatus.OK);
         }catch (ObjectNotFoundException exception){
@@ -68,7 +66,7 @@ public class ContextResource {
     @ApiOperation("Deletes a User Context from the service, if the token and the Context ID are valid.")
     @DeleteMapping("auth/contexts/{idContext}")
     public ResponseEntity<ContextDTO> delete(@RequestHeader("Authorization") String token,
-                                       @PathVariable Long idContext) {
+                                             @PathVariable Long idContext) {
         try {
             return new ResponseEntity<ContextDTO>(contextService.delete(token, idContext), HttpStatus.OK);
         }catch (ObjectNotFoundException exception){
@@ -80,31 +78,41 @@ public class ContextResource {
 
     @ApiOperation("Returns a list of all Contexts registered by the request User, if the token is valid.")
     @GetMapping("auth/contexts")
-     public ResponseEntity<List<ContextDTO>> findAllByUser(@RequestHeader("Authorization") String token) {
-       try {
-           return new ResponseEntity<List<ContextDTO>>(contextService.findContextsByCreator(token), HttpStatus.OK);
-       }catch (ObjectNotFoundException exception){
-           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-       }catch (InvalidUserException | SecurityException exception){
-           return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-       }
+    public ResponseEntity<List<ContextDTO>> findAllByUser(@RequestHeader("Authorization") String token) {
+        try {
+            return new ResponseEntity<List<ContextDTO>>(contextService.findContextsByCreator(token), HttpStatus.OK);
+        }catch (ObjectNotFoundException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }catch (InvalidUserException | SecurityException exception){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
     }
 
-    @ApiOperation("Returns a list of all Contexts registered in the service.")
+    @ApiOperation("Returns a list of Contexts registered in the service.")
     @GetMapping("contexts")
-    public ResponseEntity<List<ContextDTO>> findAllContexts(){
-	    return new ResponseEntity<List<ContextDTO>>(contextService.findAll(), HttpStatus.OK);
+    public ResponseEntity<Page<Context>> findAllContexts(@RequestParam(value = "size", defaultValue = "20") Integer size,
+                                                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                         Pageable pageable){
+        return new ResponseEntity<Page<Context>>(contextService.findAll(pageable), HttpStatus.OK);
     }
 
-    //@RequestMapping(value = "/page", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<Page<ContextDTO>> findPage(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "10") Integer linesPerPage,
-            @RequestParam(value = "orderBy", defaultValue = "name") String orderBy,
-            @RequestParam(value = "direction", defaultValue = "ASC") String direction) {
-        Page<Context> list = contextService.findPage(page, linesPerPage, orderBy, direction);
-        Page<ContextDTO> listDto = list.map(obj -> new ContextDTO(obj));
-        return ResponseEntity.ok().body(listDto);
+    @ApiOperation("Returns a list of all the user's contexts with email passed in the request.")
+    @GetMapping("contexts/email")
+    public ResponseEntity<List<Context>> getContextsByEmail(@RequestParam(value = "email") String email){
+        try {
+            return new ResponseEntity<List<Context>>(contextService.findContextsByEmail(email), HttpStatus.OK);
+        }catch (InvalidUserException exception){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @ApiOperation("Returns a list of Contexts started with the word sent in the request.")
+    @GetMapping("contexts/prefix")
+    public ResponseEntity<Page<Context>> getContextsByPrefix(@RequestParam(value = "prefix") String prefix,
+                                                             @RequestParam(value = "size", defaultValue = "20") Integer size,
+                                                             @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                             Pageable pageable){
+        return new ResponseEntity<Page<Context>>(contextService.findContextsByNamePrefix(prefix, pageable), HttpStatus.OK);
     }
 
 }
