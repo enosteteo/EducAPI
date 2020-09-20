@@ -1,6 +1,5 @@
 package br.ufpb.dcx.apps4society.educapi.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -11,9 +10,7 @@ import br.ufpb.dcx.apps4society.educapi.repositories.UserRepository;
 import br.ufpb.dcx.apps4society.educapi.services.exceptions.InvalidUserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,108 +21,99 @@ import br.ufpb.dcx.apps4society.educapi.services.exceptions.ObjectNotFoundExcept
 
 @Service
 public class ContextService {
-	@Autowired
-	private JWTService jwtService;
+    @Autowired
+    private JWTService jwtService;
 
-	@Autowired
-	private ContextRepository contextRepository;
+    @Autowired
+    private ContextRepository contextRepository;
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	public Context find(Long id) throws ObjectNotFoundException {
+    public Context find(Long id) throws ObjectNotFoundException {
 
-		Optional<Context> obgOptional = contextRepository.findById(id);
-		if (obgOptional.isEmpty()){
-			throw new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Context.class.getName());
-		}
-		return obgOptional.get();
-	}
+        Optional<Context> obgOptional = contextRepository.findById(id);
+        if (obgOptional.isEmpty()) {
+            throw new ObjectNotFoundException("Object not found! Id: " + id + ", Type: " + Context.class.getName());
+        }
+        return obgOptional.get();
+    }
 
-	@Transactional
-	public ContextDTO insert(String token, ContextRegisterDTO contextRegisterDTO) throws ObjectNotFoundException, InvalidUserException {
-		User user = validateUser(token);
+    @Transactional
+    public ContextDTO insert(String token, ContextRegisterDTO contextRegisterDTO) throws ObjectNotFoundException, InvalidUserException {
+        User user = validateUser(token);
 
-		Context context = contextRegisterDTO.toContext();
+        Context context = contextRegisterDTO.toContext();
 
-		context.setCreator(user);
-		contextRepository.save(context);
-		return new ContextDTO(context);
-	}
+        context.setCreator(user);
+        contextRepository.save(context);
+        return new ContextDTO(context);
+    }
 
-	public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException, InvalidUserException {
-		User user = validateUser(token);
+    public ContextDTO update(String token, ContextRegisterDTO contextRegisterDTO, Long id) throws ObjectNotFoundException, InvalidUserException {
+        User user = validateUser(token);
 
-		Context newObj = find(id);
-		if (!newObj.getCreator().equals(user)){
-			throw new InvalidUserException();
-		}
+        Context newObj = find(id);
+        if (!newObj.getCreator().equals(user)) {
+            throw new InvalidUserException();
+        }
 
-		updateData(newObj, contextRegisterDTO.toContext());
-		contextRepository.save(newObj);
-		return new ContextDTO(newObj);
-	}
+        updateData(newObj, contextRegisterDTO.toContext());
+        contextRepository.save(newObj);
+        return new ContextDTO(newObj);
+    }
 
-	public ContextDTO delete(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
-		User user = validateUser(token);
+    public ContextDTO delete(String token, Long id) throws ObjectNotFoundException, InvalidUserException {
+        User user = validateUser(token);
 
-		Context context = find(id);
-		if (!context.getCreator().equals(user)){
-			throw new InvalidUserException();
-		}
-		contextRepository.deleteById(id);
-		return new ContextDTO(context);
-	}
+        Context context = find(id);
+        if (!context.getCreator().equals(user)) {
+            throw new InvalidUserException();
+        }
+        contextRepository.deleteById(id);
+        return new ContextDTO(context);
+    }
 
-	public Page<Context> findAll(Pageable pageable){
-		return contextRepository.findAll(pageable);
-	}
 
-	public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
-		User user = validateUser(token);
+    public Page<Context> findContextsByParams(String email, String name, Pageable pageable) {
+        if (email != null && name != null){
+            return contextRepository.findAllByCreatorEmailLikeAndNameStartsWithIgnoreCase(email, name, pageable);
+        }
 
-		List<Context> contextListByCreator = contextRepository.findContextsByCreator(user);
+        if (email != null || name != null){
+            return  contextRepository.findAllByEmailAndNameStartsWithIgnoreCase(name, email, pageable);
+        }
 
-		return contextListByCreator.stream().map(ContextDTO::new).collect(Collectors.toList());
-	}
+        return contextRepository.findAll(pageable);
+    }
 
-	public List<Context> findContextsByEmail(String email) throws InvalidUserException {
-		Optional<User> userOptional = userRepository.findByEmail(email);
-		if (userOptional.isEmpty()){
-			throw new InvalidUserException();
-		}
+    public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
+        User user = validateUser(token);
 
-		return new ArrayList<>(userOptional.get().getContexts());
-	}
+        List<Context> contextListByCreator = contextRepository.findContextsByCreator(user);
 
-	public Page<Context> findContextsByNamePrefix(String name, Pageable pageable) {
-		return contextRepository.findByNameStartsWithIgnoreCase(name, pageable);
-	}
+        return contextListByCreator.stream().map(ContextDTO::new).collect(Collectors.toList());
+    }
 
-	public Page<Context> findPage(Integer page, Integer linesPerPage, String orderBy, String direction){
-		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
-		return contextRepository.findAll(pageRequest);
-	}
+    private void updateData(Context newObj, Context obj) {
+        newObj.setName(obj.getName());
+        newObj.setImageUrl(obj.getImageUrl());
+        newObj.setSoundUrl(obj.getSoundUrl());
+        newObj.setVideoUrl(obj.getVideoUrl());
+    }
 
-	private void updateData(Context newObj, Context obj) {
-		newObj.setName(obj.getName());
-		newObj.setImageUrl(obj.getImageUrl());
-		newObj.setSoundUrl(obj.getSoundUrl());
-		newObj.setVideoUrl(obj.getVideoUrl());
-	}
+    private User validateUser(String token) throws ObjectNotFoundException, InvalidUserException {
+        Optional<String> userEmail = jwtService.recoverUser(token);
+        if (userEmail.isEmpty()) {
+            throw new InvalidUserException();
+        }
 
-	private User validateUser(String token) throws ObjectNotFoundException, InvalidUserException {
-		Optional<String> userEmail = jwtService.recoverUser(token);
-		if (userEmail.isEmpty()){
-			throw new InvalidUserException();
-		}
+        Optional<User> userOptional = userRepository.findByEmail(userEmail.get());
+        if (userOptional.isEmpty()) {
+            throw new ObjectNotFoundException();
+        }
 
-		Optional<User> userOptional = userRepository.findByEmail(userEmail.get());
-		if (userOptional.isEmpty()){
-			throw new ObjectNotFoundException();
-		}
-
-		return userOptional.get();
-	}
+        return userOptional.get();
+    }
 
 }
