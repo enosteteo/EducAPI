@@ -30,7 +30,7 @@ public class ChallengeResource {
 	public ResponseEntity<Challenge> find(@RequestHeader("Authorization") String token,
 										  @PathVariable Long idChallenge) {
 		try {
-			return new ResponseEntity<Challenge>(challengeService.find(token, idChallenge), HttpStatus.OK);
+			return new ResponseEntity<>(challengeService.find(token, idChallenge), HttpStatus.OK);
 		}catch (ObjectNotFoundException exception){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}catch (InvalidUserException | SecurityException exception){
@@ -44,7 +44,7 @@ public class ChallengeResource {
 											@Valid @RequestBody ChallengeRegisterDTO objDto,
 											@PathVariable Long idContext){
 		try {
-			return new ResponseEntity<Challenge>(challengeService.insert(token, objDto, idContext), HttpStatus.CREATED);
+			return new ResponseEntity<>(challengeService.insert(token, objDto, idContext), HttpStatus.CREATED);
 		}catch (ObjectNotFoundException exception){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}catch (InvalidUserException | SecurityException exception){
@@ -58,7 +58,7 @@ public class ChallengeResource {
 											@Valid @RequestBody ChallengeRegisterDTO objDto,
 											@PathVariable Long idChallenge){
 		try {
-			return new ResponseEntity<Challenge>(challengeService.update(token, objDto, idChallenge), HttpStatus.OK);
+			return new ResponseEntity<>(challengeService.update(token, objDto, idChallenge), HttpStatus.OK);
 		}catch (ObjectNotFoundException exception){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}catch (InvalidUserException | SecurityException exception){
@@ -84,7 +84,7 @@ public class ChallengeResource {
 	@GetMapping("auth/challenges")
 	public ResponseEntity<List<Challenge>> findAllByUser(@RequestHeader("Authorization") String token){
 		try {
-			return new ResponseEntity<List<Challenge>>(challengeService.findChallengesByCreator(token), HttpStatus.OK);
+			return new ResponseEntity<>(challengeService.findChallengesByCreator(token), HttpStatus.OK);
 		}catch (ObjectNotFoundException exception){
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}catch (InvalidUserException exception){
@@ -95,21 +95,11 @@ public class ChallengeResource {
 	@ApiOperation("Returns a page with Challenges registered in the service.")
 	@GetMapping("challenges")
 	public ResponseEntity<Page<Challenge>> findAllChallenges(
+			@RequestParam(value = "prefix", required = false) String prefix,
 			@RequestParam(value = "size", defaultValue = "20") Integer size,
 			@RequestParam(value = "page", defaultValue = "0") Integer page,
 			Pageable pageable){
-		return new ResponseEntity<>(challengeService.findAll(pageable), HttpStatus.OK);
+		return new ResponseEntity<>(challengeService.findChallengesByParams(prefix, pageable), HttpStatus.OK);
 	}
-
-	@ApiOperation("Returns a page with Challenges started with the word sent in the request.")
-	@GetMapping("challenges/prefix")
-	public ResponseEntity<Page<Challenge>> findChallengesByPrefix(
-			@RequestParam(value = "word") String word,
-			@RequestParam(value = "size", defaultValue = "20") Integer size,
-			@RequestParam(value = "page", defaultValue = "0") Integer page,
-			Pageable pageable){
-		return new ResponseEntity<>(challengeService.findByWordPrefix(word, pageable), HttpStatus.OK);
-	}
-
 
 }
