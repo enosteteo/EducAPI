@@ -129,7 +129,7 @@ This project is licensed under the MIT License, see also [LICENSE.md](https://gi
 </table>
 
 ### :handshake: How to contribute? 
-Please read [CONTRIBUTING.md](https://github.com/a4s-ufpb/EducAPI/CONTRIBUTING.md) for more details regarding our content code and the process of submitting pull requests to us.
+Please read [CONTRIBUTING.md](https://github.com/a4s-ufpb/EducAPI/blob/master/CONTRIBUTING.md) for more details regarding our content code and the process of submitting pull requests to us.
 
 ## :mailbox: Contact us
 * To learn more about the Apps4Society and SisAlfa project visit the websites [![Site Apps4Society](https://img.shields.io/twitter/url?color=blue&label=Site%20Apps4Society&logo=Apps4Society&style=plastic&url=https%3A%2F%2Fapps4society.dcx.ufpb.br)](https://apps4society.dcx.ufpb.br) [![Site Sisalfa](https://img.shields.io/twitter/url?color=yellow&label=Site%20SisAlfa&logo=Sisalfa&style=plastic&url=https%3A%2F%2Fsisalfa.dcx.ufpb.br%2F) ](https://sisalfa.dcx.ufpb.br)
