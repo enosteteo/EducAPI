@@ -51,7 +51,7 @@
 #             context: .
 #             file: ./Dockerfile
 #             push: true
-#             tags: ${{ DOCKER_USER }}/EducAPI:latest
+#             tags: ${{ secrets.DOCKER_USER }}/EducAPI:latest
 
 #     # https://github.com/appleboy/ssh-action
 #     connect-server:
@@ -60,9 +60,9 @@
 #         needs: [build-and-push-dockerfile]
 #         uses: appleboy/scp-action@master
 #         with:
-#             host: ${{ secrets.HOST }}
-#             username: ${{ secrets.USERNAME }}
-#             key: ${{ secrets.KEY }}
+#             host: ${{ secrets.SERVER_IP }}
+#             username: ${{ secrets.SERVER_LOGIN }}
+#             key: ${{ secrets.SERVER_PASSWORD }}
 #             source: "./docker-compose-prod.yml"
 #             target: "/home/deploy/EducAPI"
     
@@ -73,8 +73,8 @@
 #         uses: [connect-server]
 #         uses: appleboy/ssh-action@master
 #         with:
-#             host: ${{ secrets.HOST }}
-#             username: ${{ secrets.USERNAME }}
-#             key: ${{ secrets.KEY }}
+#             host: ${{ secrets.SERVER_IP }}
+#             username: ${{ secrets.SERVER_LOGIN }}
+#             key: ${{ secrets.SERVER_PASSWORD }}
 #             # Change to pass environment variables via command
-#             script: docker stop educapi && docker rm educapi && cd /home/amanda/EducAPI && docker-compose -f docker-compose-prod.yml up educapi --build -d 
+#             script: docker stop educapi && docker rm -f educapi && cd /home/deploy/EducAPI && docker-compose -f docker-compose-prod.yml up educapi --build -d -e DB_URL=${{ secret.DB_URL }} -e DB_USER=${{ secret.DB_USER }} -e DB_PASSWORD=${{ secret.DB_PASSWORD }} 
