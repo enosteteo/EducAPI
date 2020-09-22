@@ -78,13 +78,13 @@ public class ContextService {
     public Page<Context> findContextsByParams(String email, String name, Pageable pageable) {
         if (email != null && name != null){
             return contextRepository.findAllByCreatorEmailLikeAndNameStartsWithIgnoreCase(email, name, pageable);
+        }else if (email != null){
+            return contextRepository.findAllByCreatorEmailEqualsIgnoreCase(email, pageable);
+        }else if (name != null){
+            return contextRepository.findAllByNameStartsWithIgnoreCase(name, pageable);
+        }else{
+            return contextRepository.findAll(pageable);
         }
-
-        if (email != null || name != null){
-            return  contextRepository.findAllByEmailAndNameStartsWithIgnoreCase(name, email, pageable);
-        }
-
-        return contextRepository.findAll(pageable);
     }
 
     public List<ContextDTO> findContextsByCreator(String token) throws ObjectNotFoundException, InvalidUserException {
