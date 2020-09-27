@@ -68,7 +68,7 @@ Go to `http://localhost:8080/`to access the API.
 
 <!-- As EducAPI has already been documented in Swagger, you don't need to document the  endpoints here, but if it did not, it should be documented in this section with subtopics (take https://github.com/EmersonDantas/SWR-Social-Network-API as base) -->
 
-You can obtain documentation for this project by going to [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html) after cloning the project,  or accessing the documentation available online at [`https://educapi-a4s.herokuapp.com/swagger-ui.html`](https://educapi-a4s.herokuapp.com/swagger-ui.html).
+You can obtain documentation for this project by going to [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html) after cloning the project,  or accessing the documentation available online at [`https://educapi-a4sufpb.herokuapp.com/swagger-ui.html`](https://educapi-a4sufpb.herokuapp.com/swagger-ui.html).
 
 To learn more about [Spring boot](https://spring.io/guides#getting-started-guides), how to install and how to use it, access the documentation. 
 Also access the [JUnit](https://junit.org/junit4/), [JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference) and [Hibernate](https://hibernate.org/orm/documentation/5.4/) documentation.
