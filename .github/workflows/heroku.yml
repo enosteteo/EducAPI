@@ -1,0 +1,43 @@
+# This workflow will build a Java project with Maven
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: Development workflow 
+
+on:
+  push:
+    branches: dev
+
+jobs:
+  # https://github.com/marketplace/actions/deploy-to-heroku
+  heroku-deploy:
+    runs-on: ubuntu-latest
+    name: Heroku deploy
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.5.6 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "educapi-a4sufpb" #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_LOGIN}}
+          branch: "dev"
+          usedocker: true
+          docker_build_args: |
+            SPRING_PROFILES_ACTIVE
+            SPRING_DATASOURCE_URL
+            SPRING_DATASOURCE_USERNAME
+            SPRING_DATASOURCE_PASSWORD
+            SPRING_JPA_HIBERNATE.DDL-AUTO
+            SPRING_JPA_SHOW-SQL
+            SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
+        env:
+            SPRING_PROFILES_ACTIVE: prod
+            SPRING_DATASOURCE_URL: ${{secrets.DB_URI_HEROKU}}
+            SPRING_DATASOURCE_USERNAME: ${{secrets.DB_USER_HEROKU}}
+            SPRING_DATASOURCE_PASSWORD: ${{secrets.DB_PASSWORD_HEROKU}} 
+            SPRING_JPA_HIBERNATE.DDL-AUTO: update
+            SPRING_JPA_SHOW-SQL: false
+            SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: false
+      
+      - name: check if the api is working
+          run if [[ $(curl -sL -w "%{http_code}\\n" "http://educapi-a4sufpb.herokuapp.com/" -o /dev/null --connect-timeout 50 --max-time 60) == '200' ]]; then exit 0 ; else exit 1; fi
+        
