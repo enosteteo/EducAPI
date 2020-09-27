@@ -36,8 +36,4 @@ jobs:
             SPRING_DATASOURCE_PASSWORD: ${{secrets.DB_PASSWORD_HEROKU}} 
             SPRING_JPA_HIBERNATE.DDL-AUTO: update
             SPRING_JPA_SHOW-SQL: false
-            SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: false
-      
-      - name: check if the api is working
-          run if [[ $(curl -sL -w "%{http_code}\\n" "http://educapi-a4sufpb.herokuapp.com/" -o /dev/null --connect-timeout 50 --max-time 60) == '200' ]]; then exit 0 ; else exit 1; fi
-        
+            SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: false        
