@@ -17,15 +17,6 @@ jobs:
           heroku_app_name: "educapi-a4sufpb" #Must be unique in Heroku
           heroku_email: ${{secrets.HEROKU_LOGIN}}
           branch: "dev"
-          usedocker: true
-          docker_build_args: |
-            SPRING_PROFILES_ACTIVE
-            SPRING_DATASOURCE_URL
-            SPRING_DATASOURCE_USERNAME
-            SPRING_DATASOURCE_PASSWORD
-            SPRING_JPA_HIBERNATE.DDL-AUTO
-            SPRING_JPA_SHOW-SQL
-            SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL
         env:
             SPRING_PROFILES_ACTIVE: prod
             SPRING_DATASOURCE_URL: ${{secrets.DB_URI_HEROKU}}
