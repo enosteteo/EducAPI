@@ -136,3 +136,4 @@ Please read [CONTRIBUTING.md](https://github.com/a4s-ufpb/EducAPI/blob/master/CO
 * Follow the Apps4Society on Instagram  [![Twitter URL](https://img.shields.io/twitter/url?color=pink&label=Instagram%20Apps4Society&logo=Instagram&logoColor=rose&style=plastic&url=https%3A%2F%2Fwww.instagram.com%2Fapps4society%2F)](https://instagram.com/apps4society) 
 * Contact us by email [![Gmail Badge](https://img.shields.io/badge/-apps4society@dcx.ufpb.br-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:apps4society@dcx.ufpb.br)](apps4society@dcx.ufpb.br) [![Gmail Badge](https://img.shields.io/badge/-sisalfa@dcx.ufpb.br-c14438?style=flat-square&logo=Gmail&logoColor=white&link=mailto:sisalfa@dcx.ufpb.br)](sisalfa@dcx.ufpb.br)
 ---
+
