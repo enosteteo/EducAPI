@@ -1,0 +1,7 @@
+.env*
+.github/
+.idea/
+.vscode/
+.sublime/
+.classpath
+.project
