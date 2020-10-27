@@ -10,6 +10,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.SignatureException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -21,7 +22,8 @@ public class JWTService {
     @Autowired
     private UserRepository userRepository;
 
-    public static final String TOKEN_KEY = "EducAPIService-BY-Apps4Society-2020";
+    @Value("${app.token.key}")
+    private String TOKEN_KEY;
 
     public LoginResponse authenticate(UserLoginDTO userLoginDTO) throws InvalidUserException {
         Optional<User> userOptional = userRepository.findByEmailAndPassword(userLoginDTO.getEmail(), userLoginDTO.getPassword());
