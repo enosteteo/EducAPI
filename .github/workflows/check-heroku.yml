@@ -1,0 +1,18 @@
+name: Checking on Heroku
+
+on:
+  schedule:
+    - cron: "00 12 * * 1-7"
+    - cron: "00 22 * * 1-7"
+    
+jobs: 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    # https://github.com/ScholliYT/Broken-Links-Crawler-Action
+    - uses: ScholliYT/Broken-Links-Crawler-Action@v2.1.1
+      with:
+        website_url: 'http://educapi-a4sufpb.herokuapp.com'
+        verbose: 'true'
+        max_retry_time: 30
+        max_retries: 5
