@@ -2,8 +2,9 @@ name: Checking on Heroku
 
 on:
   schedule:
-    - cron: "00 12 * * 1-7"
-    - cron: "00 22 * * 1-7"
+    - cron: "1 12,22 * * 1-7"
+  push:
+    branches: dev
     
 jobs: 
   build:
@@ -14,5 +15,5 @@ jobs:
       with:
         website_url: 'http://educapi-a4sufpb.herokuapp.com'
         verbose: 'true'
-        max_retry_time: 30
+        max_retry_time: 120
         max_retries: 5
