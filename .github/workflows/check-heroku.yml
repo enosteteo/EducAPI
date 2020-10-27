@@ -2,7 +2,7 @@ name: Checking on Heroku
 
 on:
   schedule:
-    - cron: "1 12,22 * * 1-7"
+    - cron: '1 12,22 * * 1-7'
   push:
     branches: dev
     
