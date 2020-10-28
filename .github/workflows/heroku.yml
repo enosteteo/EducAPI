@@ -18,15 +18,12 @@ jobs:
           heroku_email: ${{secrets.HEROKU_LOGIN}}
           branch: "dev"
         env:
-            PROFILE_ACTIVE: prod
-            DB_URL: ${{secrets.DB_URI_HEROKU}}
-            DB_USER: ${{secrets.DB_USER_HEROKU}}
-            DB_PASSWORD: ${{secrets.DB_PASSWORD_HEROKU}} 
-            TOKEN_KEY: ${{secrets.TOKEN_KEY}}
-  # https://github.com/marketplace/actions/broken-links-crawler
-  check-heroku-deploy: 
-    runs-on:  ubuntu-latest
-    steps:
+          PROFILE_ACTIVE: prod
+          DB_URL: ${{secrets.DB_URI_HEROKU}}
+          DB_USER: ${{secrets.DB_USER_HEROKU}}
+          DB_PASSWORD: ${{secrets.DB_PASSWORD_HEROKU}} 
+          TOKEN_KEY: ${{secrets.TOKEN_KEY}}
+      # https://github.com/marketplace/actions/broken-links-crawler
       - uses: ScholliYT/Broken-Links-Crawler-Action@v2.1.1
         with:
           website_url: 'http://educapi-a4sufpb.herokuapp.com'
