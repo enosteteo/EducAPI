@@ -1,8 +1,6 @@
 name: Check deployment on Heroku
 
 on:
-  push:
-    branches: dev
   schedule:
   - cron: '0 12,22 * * *'
     
