@@ -2,7 +2,7 @@ name: Check deployment on Heroku
 
 on:
   schedule:
-  - cron: '0 12,22 * * *'
+  - cron: '03 12,22 * * *'
     
 
 jobs:
