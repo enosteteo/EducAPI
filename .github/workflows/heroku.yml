@@ -23,6 +23,7 @@ jobs:
           DB_USER: ${{secrets.DB_USER_HEROKU}}
           DB_PASSWORD: ${{secrets.DB_PASSWORD_HEROKU}} 
           TOKEN_KEY: ${{secrets.TOKEN_KEY}}
+          EDUCAPI_VERSION: 1.0.4
       # https://github.com/marketplace/actions/broken-links-crawler
       - uses: ScholliYT/Broken-Links-Crawler-Action@v2.1.1
         with:
