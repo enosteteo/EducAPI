@@ -5,9 +5,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<url>http://maven.apache.org</url>
 
-	<groupId>br.ufpb.dcx.apps4society.educapi</groupId>
+	<groupId>br.ufpb.dcx.educapi</groupId>
 	<artifactId>EducAPI</artifactId>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<packaging>jar</packaging>
 
 	<name>EducAPI</name>
