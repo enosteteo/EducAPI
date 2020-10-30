@@ -4,8 +4,7 @@ services:
 
     educapi:
         container_name: educapi
-        build:
-            context: .
+        image: a4sufpb/educapi:${EDUCAPI_VERSION}
         restart: always
         ports:
             - "8080:8080"
@@ -16,8 +15,6 @@ services:
         env_file: 
             - .env-prod
 
-
-
     db:
         container_name: postgres-educapi
         image: postgres:12.3
@@ -25,17 +22,17 @@ services:
         networks:
             - educapi-network
         volumes:
-            - postgres-educapi:/data/postgres
+            - educapi: /var/lib/postgresql/data
         env_file: 
             - .env-prod
         environment:
             POSTGRES_USER: DB_USER
             POSTGRES_PASSWORD: DB_PASSWORD
             POSTGRES_DB: DB_DATABASE
-            PGDATA: /data/postgres
+            PGDATA: /var/lib/postgresql/data/pgdata
 
 volumes:
-    postgres-educapi:
+    educapi:
 
 networks: 
     educapi-network:
