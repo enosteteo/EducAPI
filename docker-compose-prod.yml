@@ -4,8 +4,7 @@ services:
 
     educapi:
         container_name: educapi
-        build:
-            context: .
+        image: a4sufpb/educapi:${EDUCAPI_VERSION}
         restart: always
         ports:
             - "8080:8080"
@@ -13,15 +12,8 @@ services:
             - educapi-network
         depends_on:
             - db
-        environment:
-            SPRING_PROFILES_ACTIVE: prod
-            SPRING_DATASOURCE_URL: DB_URL
-            SPRING_DATASOURCE_USERNAME: DB_USER
-            SPRING_DATASOURCE_PASSWORD: DB_PASSWORD
-            SPRING_JPA_HIBERNATE.DDL-AUTO: update
-            SPRING_JPA_SHOW-SQL: false
-            SPRING_JPA_PROPERTIES_HIBERNATE_FORMAT_SQL: false
-
+        env_file: 
+            - .env-prod
 
     db:
         container_name: postgres-educapi
@@ -30,15 +22,17 @@ services:
         networks:
             - educapi-network
         volumes:
-            - postgres-educapi:/data/postgres
+            - educapi: /var/lib/postgresql/data
+        env_file: 
+            - .env-prod
         environment:
             POSTGRES_USER: DB_USER
             POSTGRES_PASSWORD: DB_PASSWORD
-            POSTGRES_DB: educapi
-            PGDATA: /data/postgres
+            POSTGRES_DB: DB_DATABASE
+            PGDATA: /var/lib/postgresql/data/pgdata
 
 volumes:
-    postgres-educapi:
+    educapi:
 
 networks: 
     educapi-network:
