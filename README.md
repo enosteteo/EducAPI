@@ -8,7 +8,7 @@ Springboot API that provides contexts and challenges in a collaborative database
 
 To make this project run you will need to have the following items installed: 
 
-* Docker and Docker Compose
+* [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 * Java 11 or OpenJDK 11
 * PostgreSQL 12.3 (it is recommended to use a Docker container)
 * Intelij or other IDE of your choice
@@ -24,55 +24,55 @@ This project also uses the following technologies:
 
  > Note: Use Insomnia or another tool to test calls to API endpoints
 
-## :rocket: Getting Started
+## :rocket: Starting the project
 
-To start this project, follow the instructions according to the desired mode. You must first clone this repository:
+You must open a terminal and clone this repository:
 
-    # To clone the repository
-    git clone https://github.com/a4s-ufpb/EducAPI.git
+To clone this repository via HTTPS:
 
- > Note: Pull requests should only be accepted if the project is able to build using Docker. 
- 
- ### Starting the project
- 
-Change the `spring.profiles.active` variable in the `application.properties` file to `dev` or `test`
- 
-* Development environment: 
+    a4sufpb@a4sufpb:~$ git clone https://github.com/a4s-ufpb/EducAPI.git
 
-Open the IDE of your choice and start the project from the class`src/main/java/br/ufpb/dcx/apps4society/educapi/EducAPIAplication.java`.
+Access the cloned repository through the IDE of your choice and change the `spring.profiles.active` variable in the` EducAPI/src/main/resources/application.properties` file to` dev` or` test`.
+
+Create a `.env` file in the project's root directory, to set the environment variables used in the API, and fill this file with the following content:
+
+    EDUCAPI_VERSION=1.0.4
+    PROFILE_ACTIVE=dev
+    POSTGRES_USER=postgres
+    POSTGRES_PASSWORD=postgres
+    POSTGRES_DB=educapi
+    DB_URL=jdbc:postgresql://db:5432/${POSTGRES_DB}
+    TOKEN_KEY=educapi-dev
+
+If you are NOT going to run the project using Docker, download the dependencies needed to run the project by right-clicking on the `EducAPI/pom.xml` file.
+
+To run the API locally on your machine, open a terminal at the root of the project and enter the following commands:
+
+    a4sufpb@a4sufpb:~$ export $(cat .env | xargs)
+    a4sufpb@a4sufpb:~$ ./mvnw spring-boot:run
 
 Go to `http://localhost:8080/`to access the API.
 
-* Development environment with Docker: 
+If you are going to run the project USING Docker, just open a terminal at the root of the project and type:
 
-Open in the default project directory:
+    a4sufpb@a4sufpb:~$ docker-compose up --build
 
-    cd EducAPI
+To stop the project just close the terminal.
 
-To start this project type in the terminal, inside the project's default directory:
-
-
-    docker-compose up -d
- 
- 
-To stop this project type in the terminal, inside the project's default directory:
-
-    docker-compose down
-    
-Whenever you want to test any changes that werw made to the code, repeat the commands above to stop and start again.
- 
 Go to `http://localhost:8080/`to access the API.
+
+> NOTE: Whenever you want to test any changes that werw made to the code, repeat the commands above to stop and start again.
+ 
+> Note: Pull requests should only be accepted if the project is able to build using Docker.
 
 
 ## :closed_book:Documentation
 
-<!-- As EducAPI has already been documented in Swagger, you don't need to document the  endpoints here, but if it did not, it should be documented in this section with subtopics (take https://github.com/EmersonDantas/SWR-Social-Network-API as base) -->
+The API in production at [https://api.apps4society.dcx.ufpb.br/educapi/](https://api.apps4society.dcx.ufpb.br/educapi/) and the documentation can be obtained at [https://api.apps4society.dcx.ufpb.br/educapi/swagger-ui.html](https://api.apps4society.dcx.ufpb.br/educapi/swagger-ui.html). In addition, you can acess the API documentation locally on your machine by accessing `localhost:8080/swagger-ui.html`.
 
-You can obtain documentation for this project by going to [`http://localhost:8080/swagger-ui.html`](http://localhost:8080/swagger-ui.html) after cloning the project,  or accessing the documentation available online at [`https://educapi-a4sufpb.herokuapp.com/swagger-ui.html`](https://educapi-a4sufpb.herokuapp.com/swagger-ui.html).
+To learn more about [Spring boot](https://spring.io/guides#getting-started-guides), how to install and how to use it, access the documentation.
 
-To learn more about [Spring boot](https://spring.io/guides#getting-started-guides), how to install and how to use it, access the documentation. 
 Also access the [JUnit](https://junit.org/junit4/), [JPA](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#reference) and [Hibernate](https://hibernate.org/orm/documentation/5.4/) documentation.
-
 
 ## :page_facing_up: Licence
 
