@@ -31,22 +31,27 @@
           java-version: 11
       - name: Run unit tests
         run: ./mvnw test
-    
   # https://github.com/marketplace/actions/build-and-push-docker-images
-  login-build-and-push-dockerfile:
+  docker-login:
     runs-on: ubuntu-latest
     name: Docker login
     needs: [tests]
     steps:
       - uses: docker/login-action@v1.8.0
-      - name: Dockerhub Login
         with:
           username: ${{ secrets.DOCKER_USER }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Build and Push Dockerfile
+
+  # https://github.com/marketplace/actions/build-and-push-docker-images
+  build-and-push-dockerfile:
+    runs-on: ubuntu-latest
+    name: Build and push Dockerfile
+    needs: [docker-login]
+    steps:
       - uses: docker/build-push-action@v2
         with:
           context: .
+          Dockerfile: EducAPI/Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USER }}/educapi:latest
 
@@ -54,7 +59,7 @@
   connect-server:
     runs-on: ubuntu-latest
     name: Connect Server
-    needs: [login-build-and-push-dockerfile]
+    needs: [build-and-push-dockerfile]
     steps:
       - uses: appleboy/scp-action@master
         with:
