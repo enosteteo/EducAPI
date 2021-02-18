@@ -54,7 +54,7 @@
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/EducAPI:latest
+          tags: ${{ secrets.DOCKER_USER }}/educapi:latest
 
   # https://github.com/appleboy/ssh-action
   connect-server:
